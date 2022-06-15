@@ -13,14 +13,45 @@ class api:
     self.token = token
 
   def repost(self, id, post):
-    post = requests.post(f"https://api.wasteof.money/posts",headers = {"Authorization": self.token},json={"post": post, "repost":id})
+    post = requests.post("https://api.wasteof.money/posts",headers = {"Authorization": self.token},json={"post": post, "repost":id})
     print(post.json())
     return post
 
   def post(self, post):
-    post = requests.post(f"https://api.wasteof.money/posts",headers = {"Authorization": self.token},json={"post": post})
+    post = requests.post("https://api.wasteof.money/posts",headers = {"Authorization": self.token},json={"post": post})
     print(post.json())
     return post
+
+  def read_message(self):
+    messages = requests.get("https://api.wasteof.money/messages/unread",headers = {"Authorization": self.token})
+    return messages
+
+  def wall_reply(self, user, id, post):
+    post = requests.post(f"https://api.wasteof.money/users/{user}/wall",headers = {"Authorization": self.token},json={"content": post, "parent":id})
+    #print(post,"\n", vars(post))
+    print(post.json())
+    return post
+
+  def post_reply(self, id, post):
+    post = requests.post(f"https://api.wasteof.money/posts/{id}/comment",headers = {"Authorization": self.token},json={"content": post})
+    #print(post,"\n", vars(post))
+    print(post.json())
+    return post
+
+  def joke():
+    x = requests.get("https://v2.jokeapi.dev/joke/Programming,Miscellaneous,Pun,Christmas?blacklistFlags=nsfw,racist,sexist,explicit")
+    s = x.status_code
+    if s != 200:
+      return f"An error has occurred. please try again later{s}"
+
+    x = x.json()
+    if x["error"] == True:
+      return f"An error has occurred. please try again later.{json.dumps(x)}"
+    if x["type"] == "single":
+      return x["joke"]
+    else:
+      return [x["setup"],x["delivery"]]
+
 
 #token = login()
 #repostit("278fd7b182958jgugigyvhfgdhfycubibuctsrarsygjvgfu8")

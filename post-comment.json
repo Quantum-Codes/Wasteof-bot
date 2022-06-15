@@ -1,0 +1,120 @@
+[
+  {
+    "_id": "62a753830cdad6f85160e612",
+    "type": "comment_mention",
+    "to": {
+      "name": "wasteof_bot",
+      "id": "6176b534557dc9054d895c3e"
+    },
+    "data": {
+      "actor": {
+        "name": "ankit_anmol",
+        "id": "613de0cfa242f211df630633"
+      },
+      "comment": {
+        "_id": "62a753830cdad6f85160e610",
+        "post": "62a35551e76e04c1daf39317",
+        "poster": {
+          "name": "ankit_anmol",
+          "id": "613de0cfa242f211df630633"
+        },
+        "content": "<p>@wasteof_bot</p>",
+        "time": 1655133059832,
+        "hasReplies": false
+      },
+      "post": {
+        "_id": "62a35551e76e04c1daf39317",
+        "poster": {
+          "name": "wasteof_bot",
+          "id": "6176b534557dc9054d895c3e"
+        },
+        "content": "<p><strong><em>SOLVED</em></strong></p><p></p><p>How to auth to wasteof socketio?</p><p>Sample code maybe (js code also will be fine)</p><p></p><p>My current code: connects to API but idk where and how to authenticate (I have token/session)</p><pre><code>import os\n\nos.system(\"pip install python-socketio[client]\")\nos.system(\"clear\")\nimport socketio\nsio = socketio.Client()\n\n@sio.event\ndef dsconnect(data):\n  print('I received a message!')\n  print(data)\n\n\n@sio.on('updateMessageCount')\ndef on_message(data):\n  print('I received a message!')\n  print(data)\n\n@sio.event\ndef connect():\n  print(\"I'm connected!\")\n  #sio.emit('login', {'Authorization': api.token})\n  \n\nsio.connect(\"https://api.wasteof.money/\")\n\n\n</code></pre>",
+        "time": 1654871377980,
+        "edited": 1654874330924,
+        "revisions": [
+          {
+            "content": "<p>How to auth to wasteof socketio?</p><p></p><pre><code>import os\n\nos.system(\"pip install python-socketio[client]\")\nos.system(\"clear\")\nimport socketio\nsio = socketio.Client()\n\n@sio.event\ndef dsconnect(data):\n  print('I received a message!')\n  print(data)\n\n\n@sio.on('updateMessageCount')\ndef on_message(data):\n  print('I received a message!')\n  print(data)\n\n@sio.event\ndef connect():\n  print(\"I'm connected!\")\n  #sio.emit('login', {'Authorization': api.token})\n  \n\nsio.connect(\"https://api.wasteof.money/\")\n\n\n</code></pre>",
+            "time": 1654871377980,
+            "editor": "6176b534557dc9054d895c3e"
+          },
+          {
+            "content": "<p>How to auth to wasteof socketio?</p><p>Sample code maybe (js code also will be fine)</p><p></p><p>My current code: connects to API but idk where and how to authenticate (I have token/session)</p><pre><code>import os\n\nos.system(\"pip install python-socketio[client]\")\nos.system(\"clear\")\nimport socketio\nsio = socketio.Client()\n\n@sio.event\ndef dsconnect(data):\n  print('I received a message!')\n  print(data)\n\n\n@sio.on('updateMessageCount')\ndef on_message(data):\n  print('I received a message!')\n  print(data)\n\n@sio.event\ndef connect():\n  print(\"I'm connected!\")\n  #sio.emit('login', {'Authorization': api.token})\n  \n\nsio.connect(\"https://api.wasteof.money/\")\n\n\n</code></pre>",
+            "time": 1654871444497,
+            "editor": "6176b534557dc9054d895c3e"
+          },
+          {
+            "content": "<p><strong><em>SOLVED</em></strong></p><p></p><p>How to auth to wasteof socketio?</p><p>Sample code maybe (js code also will be fine)</p><p></p><p>My current code: connects to API but idk where and how to authenticate (I have token/session)</p><pre><code>import os\n\nos.system(\"pip install python-socketio[client]\")\nos.system(\"clear\")\nimport socketio\nsio = socketio.Client()\n\n@sio.event\ndef dsconnect(data):\n  print('I received a message!')\n  print(data)\n\n\n@sio.on('updateMessageCount')\ndef on_message(data):\n  print('I received a message!')\n  print(data)\n\n@sio.event\ndef connect():\n  print(\"I'm connected!\")\n  #sio.emit('login', {'Authorization': api.token})\n  \n\nsio.connect(\"https://api.wasteof.money/\")\n\n\n</code></pre>",
+            "time": 1654874330924,
+            "current": true
+          }
+        ],
+        "comments": 18,
+        "loves": 3,
+        "reposts": 0
+      }
+    },
+    "read": false,
+    "time": 1655133059838
+  },
+
+
+
+  
+  {
+    "_id": "62a753830cdad6f85160e611",
+    "type": "comment",
+    "to": {
+      "name": "wasteof_bot",
+      "id": "6176b534557dc9054d895c3e"
+    },
+    "data": {
+      "actor": {
+        "name": "ankit_anmol",
+        "id": "613de0cfa242f211df630633"
+      },
+      "post": {
+        "_id": "62a35551e76e04c1daf39317",
+        "poster": {
+          "name": "wasteof_bot",
+          "id": "6176b534557dc9054d895c3e"
+        },
+        "content": "<p><strong><em>SOLVED</em></strong></p><p></p><p>How to auth to wasteof socketio?</p><p>Sample code maybe (js code also will be fine)</p><p></p><p>My current code: connects to API but idk where and how to authenticate (I have token/session)</p><pre><code>import os\n\nos.system(\"pip install python-socketio[client]\")\nos.system(\"clear\")\nimport socketio\nsio = socketio.Client()\n\n@sio.event\ndef dsconnect(data):\n  print('I received a message!')\n  print(data)\n\n\n@sio.on('updateMessageCount')\ndef on_message(data):\n  print('I received a message!')\n  print(data)\n\n@sio.event\ndef connect():\n  print(\"I'm connected!\")\n  #sio.emit('login', {'Authorization': api.token})\n  \n\nsio.connect(\"https://api.wasteof.money/\")\n\n\n</code></pre>",
+        "time": 1654871377980,
+        "edited": 1654874330924,
+        "revisions": [
+          {
+            "content": "<p>How to auth to wasteof socketio?</p><p></p><pre><code>import os\n\nos.system(\"pip install python-socketio[client]\")\nos.system(\"clear\")\nimport socketio\nsio = socketio.Client()\n\n@sio.event\ndef dsconnect(data):\n  print('I received a message!')\n  print(data)\n\n\n@sio.on('updateMessageCount')\ndef on_message(data):\n  print('I received a message!')\n  print(data)\n\n@sio.event\ndef connect():\n  print(\"I'm connected!\")\n  #sio.emit('login', {'Authorization': api.token})\n  \n\nsio.connect(\"https://api.wasteof.money/\")\n\n\n</code></pre>",
+            "time": 1654871377980,
+            "editor": "6176b534557dc9054d895c3e"
+          },
+          {
+            "content": "<p>How to auth to wasteof socketio?</p><p>Sample code maybe (js code also will be fine)</p><p></p><p>My current code: connects to API but idk where and how to authenticate (I have token/session)</p><pre><code>import os\n\nos.system(\"pip install python-socketio[client]\")\nos.system(\"clear\")\nimport socketio\nsio = socketio.Client()\n\n@sio.event\ndef dsconnect(data):\n  print('I received a message!')\n  print(data)\n\n\n@sio.on('updateMessageCount')\ndef on_message(data):\n  print('I received a message!')\n  print(data)\n\n@sio.event\ndef connect():\n  print(\"I'm connected!\")\n  #sio.emit('login', {'Authorization': api.token})\n  \n\nsio.connect(\"https://api.wasteof.money/\")\n\n\n</code></pre>",
+            "time": 1654871444497,
+            "editor": "6176b534557dc9054d895c3e"
+          },
+          {
+            "content": "<p><strong><em>SOLVED</em></strong></p><p></p><p>How to auth to wasteof socketio?</p><p>Sample code maybe (js code also will be fine)</p><p></p><p>My current code: connects to API but idk where and how to authenticate (I have token/session)</p><pre><code>import os\n\nos.system(\"pip install python-socketio[client]\")\nos.system(\"clear\")\nimport socketio\nsio = socketio.Client()\n\n@sio.event\ndef dsconnect(data):\n  print('I received a message!')\n  print(data)\n\n\n@sio.on('updateMessageCount')\ndef on_message(data):\n  print('I received a message!')\n  print(data)\n\n@sio.event\ndef connect():\n  print(\"I'm connected!\")\n  #sio.emit('login', {'Authorization': api.token})\n  \n\nsio.connect(\"https://api.wasteof.money/\")\n\n\n</code></pre>",
+            "time": 1654874330924,
+            "current": true
+          }
+        ],
+        "comments": 18,
+        "loves": 3,
+        "reposts": 0
+      },
+      "comment": {
+        "_id": "62a753830cdad6f85160e610",
+        "post": "62a35551e76e04c1daf39317",
+        "poster": {
+          "name": "ankit_anmol",
+          "id": "613de0cfa242f211df630633"
+        },
+        "content": "<p>@wasteof_bot</p>",
+        "time": 1655133059832,
+        "hasReplies": false
+      }
+    },
+    "read": false,
+    "time": 1655133059833
+  }
+]

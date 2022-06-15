@@ -1,0 +1,38 @@
+[
+  {
+    "_id": "62a74f2f0cdad6f85160e603",
+    "type": "wall_comment",
+    "to": {
+      "name": "wasteof_bot",
+      "id": "6176b534557dc9054d895c3e"
+    },
+    "data": {
+      "actor": {
+        "name": "ankit_anmol",
+        "id": "613de0cfa242f211df630633"
+      },
+      "wall": {
+        "name": "wasteof_bot",
+        "id": "6176b534557dc9054d895c3e"
+      },
+      "comment": {
+        "_id": "62a74f2f0cdad6f85160e602",
+        "wall": {
+          "name": "wasteof_bot",
+          "id": "6176b534557dc9054d895c3e"
+        },
+        "parent": "62a35b963083ec31bbeefc04",
+        "poster": {
+          "name": "ankit_anmol",
+          "id": "613de0cfa242f211df630633"
+        },
+        "content": "<p>Hi</p>",
+        "time": 1655131951995,
+        "top": "62a35b963083ec31bbeefc04",
+        "hasReplies": false
+      }
+    },
+    "read": false,
+    "time": 1655131951996
+  }
+]
