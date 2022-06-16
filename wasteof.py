@@ -1,4 +1,4 @@
-import requests, os
+import requests, os, json
 
 class api:
   def __init__(self):
@@ -32,13 +32,14 @@ class api:
     print(post.json())
     return post
 
-  def post_reply(self, id, post):
-    post = requests.post(f"https://api.wasteof.money/posts/{id}/comment",headers = {"Authorization": self.token},json={"content": post})
+  def post_reply(self, id, post, parent_id=None):
+    post = requests.post(f"https://api.wasteof.money/posts/{id}/comments",headers = {"Authorization": self.token},json={"content": post, "parent": parent_id})
     #print(post,"\n", vars(post))
     print(post.json())
     return post
 
-  def joke():
+
+  def joke(self):
     x = requests.get("https://v2.jokeapi.dev/joke/Programming,Miscellaneous,Pun,Christmas?blacklistFlags=nsfw,racist,sexist,explicit")
     s = x.status_code
     if s != 200:
@@ -46,11 +47,11 @@ class api:
 
     x = x.json()
     if x["error"] == True:
-      return f"An error has occurred. please try again later.{json.dumps(x)}"
+      return f"An error has occurred. please try again later. Error code {json.dumps(x)}"
     if x["type"] == "single":
       return x["joke"]
     else:
-      return [x["setup"],x["delivery"]]
+      return f"{x['setup']}<p></p>{x['delivery']}"
 
 
 #token = login()

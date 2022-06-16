@@ -1,6 +1,3 @@
-# CREATE REPLYING FEATURES FOR ALL THINGS IN API FOR allowed_types TUPLE 
-#COPY JOKE FUNCTION OF DISCORD BOT TO wasteof.py joke()
-
 from wasteof import api
 from keep_alive import keep_alive
 import os
@@ -18,15 +15,25 @@ def respond(messages):
   for item in messages:
     if not item["type"] in allowed_types:
       continue
+    response = "hi. I am a bot. Use `@wasteof_bot joke` to hear a joke.<p></p>That's the only command I have for now. Suggest commands on my wall."
+
     comment = item["data"][item["type"].split("_")[-2]]["content"][3:-4].split()
     comment = [i.lower() for i in comment]
     print(comment)
+    try:
+      if comment[1] == "joke":
+        response = api.joke()
+    except IndexError:
+      pass
     if comment[0] == "@wasteof_bot":
       if item["type"] == allowed_types[0]:
-        api.wall_reply(item["data"]["comment"]["wall"]["name"], item["data"]["comment"]["_id"], "hi")
+        api.wall_reply(item["data"]["comment"]["wall"]["name"], item["data"]["comment"]["_id"], response)
 
       elif item["type"] == allowed_types[1]:
-        api.post_reply(item["data"]["post"]["_id"], "hi")
+        api.post_reply(item["data"]["post"]["_id"], response)
+
+      elif item["type"] == allowed_types[2]:
+        api.post_reply(item["data"]["post"]["_id"], response, item["data"]["comment"]["_id"])
 
 
 
