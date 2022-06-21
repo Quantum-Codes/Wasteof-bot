@@ -2,6 +2,7 @@ import requests, os, json
 
 class api:
   def __init__(self):
+    self.prefix = "wob"
     self.login()
     
   def login(self):
@@ -36,6 +37,18 @@ class api:
     post = requests.post(f"https://api.wasteof.money/posts/{id}/comments",headers = {"Authorization": self.token},json={"content": post, "parent": parent_id})
     #print(post,"\n", vars(post))
     print(post.json())
+    return post
+
+  def wall_post(self, user, post):
+    post = requests.post(f"https://api.wasteof.money/users/{user}/wall",headers = {"Authorization": self.token},json={"content": post})
+    #print(post,"\n", vars(post))
+    print(post.json())
+    return post
+
+  def user_exists(self, user):
+    post = requests.get(f"https://api.wasteof.money/username-available?username={user.lower()}")
+    #print(post)
+    post = 1 - post.json().get("available", True) #error key may also come up
     return post
 
 
