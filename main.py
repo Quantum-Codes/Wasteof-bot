@@ -2,7 +2,7 @@ from wasteof import api
 from keep_alive import keep_alive
 from threading import Thread
 from replit import db
-import os, time
+import os, time, json
 
 db["ping"] = []
 
@@ -32,9 +32,8 @@ def respond(messages):
     else:
       comment = item["data"][item["type"].split("_")[-2]]["content"][3:-4].split()
     comment = [i.lower() for i in comment]
-    if comment[0][0] == api.prefix:
-      comment[0] = comment[0][1:]
-      comment.insert(0,"@wasteof_bot")
+    if comment[0] == api.prefix:
+      comment[0] = "@wasteof_bot"
     print(comment)
     try:
       if comment[1] == "joke":
@@ -67,10 +66,10 @@ def respond(messages):
           temp = api.prefix + " "
         else:
           temp = "@wasteof_bot "
-        response = f"who to ping? Syntax:<p></p> `{temp}ping @user`"
+        response = f"<p>who to ping? Syntax:</p><p>`{temp}ping @user`</p>"
         del temp
-      pass
-    if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0][0]==api.prefix):
+
+    if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):
       if item["type"] == allowed_types[0]:
         api.wall_reply(item["data"]["comment"]["wall"]["name"], item["data"]["comment"]["_id"], response)
 
@@ -84,7 +83,7 @@ def respond(messages):
         #if comment[0][0] == api.prefix:
           #if comment[0][1:] =="joke":
             #response = api.joke()
-        sio.emit("message", "<p></p>"+response)
+        sio.emit("message", "<p>"+response+"</p>")
 
 
 
@@ -110,8 +109,7 @@ def on_message(data):
 @sio.on('message')
 def on_message(data):
   data["type"] = "chat"
-  data = [data]
-  #print(data)
+  data = (data,)
   respond(data)#data in tuple/list only
 
 @sio.event

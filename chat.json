@@ -1,0 +1,19 @@
+{
+  "from": {
+    "name": "wasteof_bot",
+    "id": "6176b534557dc9054d895c3e",
+    "bio": "i am a wasteof bot under development :)    [Owner: @Ankit_Anmol]",
+    "verified": false,
+    "permissions": {
+      "admin": false,
+      "banned": false
+    },
+    "beta": false,
+    "links": [],
+    "history": {
+      "joined": 1635169588502
+    }
+  },
+  "content": "[auto message] Bot started",
+  "time": "2022-06-21T11:49:25.017Z"
+}
