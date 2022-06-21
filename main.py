@@ -1,3 +1,13 @@
+"""
+<p>
+<p>Note: wherever I say “wasteof chat or “/chat“, I am referring to wasteof.money/chat</p>
+<p>I’m one of the first bots to exist on this website!</p>
+<p>I work on the whole site! (Including wasteof chat!)</p>
+<p>Here is how to use me:</p>
+
+</p>
+"""
+
 from wasteof import api
 from keep_alive import keep_alive
 from threading import Thread
@@ -24,7 +34,11 @@ def respond(messages):
   for item in messages:
     if not item["type"] in allowed_types:
       continue
-    response = "<p>hi. I am a bot.</p><p>Use `@wasteof_bot joke` to hear a joke.</p><p>Use `@wasteof_bot ping [user] to call somebody for chatting in wasteof.money/chat</p><p>That's the only command I have for now. Suggest commands on my wall.</p>"
+    if item["type"] == "chat":
+      temp = api.prefix
+    else:
+      temp = "@wasteof_bot"
+    response = f"<p>hi. I am a bot.</p><p>Use <code>{temp} joke</code> to hear a joke.</p><p>Use <code>{temp} invite [user]</code> to invite somebody for chatting in wasteof.money/chat</p><p>These are the only commands I have for now. Suggest commands on my wall.</p>"
     
   
     if item["type"] == allowed_types[3]:
@@ -38,7 +52,7 @@ def respond(messages):
     try:
       if comment[1] == "joke":
         response = api.joke()
-      elif comment[1] == "ping":
+      elif comment[1] == "invite":
         if item["type"] == "chat":
           from_user = item["from"]["name"]
         else:
@@ -48,25 +62,23 @@ def respond(messages):
           comment[2] = comment[2][1:]
         to_ping_user = comment[2]
         #print(api.user_exists(to_ping_user))
-        if api.user_exists(to_ping_user) and (from_user not in db["ping"]):
+        exists = api.user_exists(to_ping_user)
+        if exists and (from_user not in db["ping"]):
           api.wall_post(to_ping_user, response)
           response = "Done. Link to chat https://wasteof.money/chat"
           db["ping"].append(from_user)
           t = Thread(target = cooldown, args=(from_user,))
           t.start()
+        elif from_user in db["ping"]:
+          response = "You are on a cooldown for 1 minute. Calm down, have patience.. Else go and have a glass of water"
+        elif exists == None:
+          response = f"@{to_ping_user} doesn't exist."
         else:
-          if from_user in db["ping"]:
-            response = "You are on a cooldown for 1 minute. Calm down, have patience.. Else go and have a glass of water"
-          else:
-            response = f"@{to_ping_user} doesn't exist."
+          response = f"{to_ping_user} is offline now."
     except IndexError:
       print("indexerror???")
-      if len(comment) == 2 and comment[1] == "ping":
-        if item["type"] == "chat":
-          temp = api.prefix + " "
-        else:
-          temp = "@wasteof_bot "
-        response = f"<p>who to ping? Syntax:</p><p>`{temp}ping @user`</p>"
+      if len(comment) == 2 and comment[1] =="invite":
+        response = f"<p>who to invite? Syntax:</p><p><code>{temp} invite @user</code></p>"
         del temp
 
     if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):

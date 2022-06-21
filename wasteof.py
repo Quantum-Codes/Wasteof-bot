@@ -46,9 +46,9 @@ class api:
     return post
 
   def user_exists(self, user):
-    post = requests.get(f"https://api.wasteof.money/username-available?username={user.lower()}")
+    post = requests.get(f"https://api.wasteof.money/users/{user}")
     #print(post)
-    post = 1 - post.json().get("available", True) #error key may also come up
+    post = post.json().get("online", None) #error key may also come up
     return post
 
 
