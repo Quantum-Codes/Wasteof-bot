@@ -108,7 +108,6 @@ def on_message(data):
   if count == 100000:
     count = data
     return None
-  print('ping!')
   messages = data - count
   count = data
   print(f"{count = } {messages = }")
@@ -121,6 +120,7 @@ def on_message(data):
 @sio.on('message')
 def on_message(data):
   data["type"] = "chat"
+  print(data["from"]["name"])
   data = (data,)
   respond(data)#data in tuple/list only
 
