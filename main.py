@@ -38,9 +38,10 @@ def insert_user(comment, item):
 def docs(temp):
   doc = f"""<p>
   <p>hi. I am a bot.</p>
-  <p>Use <code>{temp} joke</code> to hear a joke.</p>
-  <p>Use <code>{temp} avatar [user]</code> to get the user's profile picture. If <code>user</code> isn't given, it gives your avatar/profile pic.</p>
-  <p>Use <code>{temp} banner [user]</code> to get the user's banner. If <code>user</code> isn't given, it gives your banner.</p>
+  <p>Use <code>{temp} joke</code> to hear a <b>joke</b>.</p>
+  <p>Use <code>{temp} avatar [user]</code> to get the user's <b>profile picture</b>. If <code>user</code> isn't given, it gives your avatar/profile pic.</p>
+  <p>Use <code>{temp} banner [user]</code> to get the user's <b>banner</b>. If <code>user</code> isn't given, it gives your banner.</p>
+  <p>Use <code>{temp} stats [user]</code> to get the user's <b>statistics</b>. If <code>user</code> isn't given, it gives your stats.</p>
   <p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p>
   </p>"""
   return doc
