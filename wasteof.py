@@ -1,10 +1,11 @@
-import requests, os, json
+import requests, os, json, time
 
 class api:
   def __init__(self):
     self.prefix = "wob"
     self.login()
-    
+    self.header = {"User-Agent":"@wasteof_bot by @Ankit_Anmol | Contact on wasteof-@ankit_anmol on github-@Quantum-Codes on discord(you have)", "Authorization": self.token}
+
   def login(self):
     user = os.environ["User"]
     passw = os.environ["passw"]
@@ -14,43 +15,66 @@ class api:
     self.token = token
 
   def repost(self, id, post):
-    post = requests.post("https://api.wasteof.money/posts",headers = {"Authorization": self.token},json={"post": post, "repost":id})
+    post = requests.post("https://api.wasteof.money/posts",headers = self.header, json={"post": post, "repost":id})
     print(post.json())
     return post
 
   def post(self, post):
-    post = requests.post("https://api.wasteof.money/posts",headers = {"Authorization": self.token},json={"post": post})
+    post = requests.post("https://api.wasteof.money/posts",headers = self.header, json={"post": post})
     print(post.json())
     return post
 
   def read_message(self):
-    messages = requests.get("https://api.wasteof.money/messages/unread",headers = {"Authorization": self.token})
+    messages = requests.get("https://api.wasteof.money/messages/unread",headers = self.header)
     return messages
 
   def wall_reply(self, user, id, post):
-    post = requests.post(f"https://api.wasteof.money/users/{user}/wall",headers = {"Authorization": self.token},json={"content": post, "parent":id})
+    post = requests.post(f"https://api.wasteof.money/users/{user}/wall",headers = self.header, json={"content": post, "parent":id})
     #print(post,"\n", vars(post))
     print(post.json())
     return post
 
   def post_reply(self, id, post, parent_id=None):
-    post = requests.post(f"https://api.wasteof.money/posts/{id}/comments",headers = {"Authorization": self.token},json={"content": post, "parent": parent_id})
+    post = requests.post(f"https://api.wasteof.money/posts/{id}/comments",headers = self.header, json={"content": post, "parent": parent_id})
     #print(post,"\n", vars(post))
     print(post.json())
     return post
 
   def wall_post(self, user, post):
-    post = requests.post(f"https://api.wasteof.money/users/{user}/wall",headers = {"Authorization": self.token},json={"content": post})
+    post = requests.post(f"https://api.wasteof.money/users/{user}/wall",headers = self.header, json={"content": post})
     #print(post,"\n", vars(post))
     print(post.json())
     return post
 
-  def user_exists(self, user):
+  def user_online(self, user):
     post = requests.get(f"https://api.wasteof.money/users/{user}")
     #print(post)
     post = post.json().get("online", None) #error key may also come up
     return post
 
+  def user_exists(self, user):
+    post = requests.get(f"https://api.wasteof.money/username-available?username={user}").json()
+    post = 1 - post.get("available", True)
+    return bool(post)
+
+  def stats(self, user):
+    emoji = ("🔴", "🟢", "","✅","","🛡","","🚫","","🧪")
+    print(user)
+    post = requests.get(f"https://api.wasteof.money/users/{user}")
+    print(post)
+    post = post.json()
+    if post.get("error"):
+      return "User doesnt exist"
+    print(post)
+    return f"""<p><b>{user}</b> {emoji[post["online"]]} {emoji[post["verified"]+2]} {emoji[post["permissions"]["admin"]+4]} {emoji[post["beta"]+8]} {emoji[post["permissions"]["banned"]+6]}</p>
+    <p><b>ID:</b>        {post["id"]}</p>
+    <p><b>Bio:</b>       {post["bio"]}</p>
+    <p><b>Followers:</b> {post["stats"]["followers"]}</p>
+    <p><b>Following:</b> {post["stats"]["following"]}</p>
+    <p><b>Posts:</b>     {post["stats"]["posts"]}</p>
+    <p><b>Joined:</b>    {time.strftime('%d-%m-%Y', time.gmtime(int(post["history"]["joined"]/1000)))} (
+    {(int(time.time()) - int(post["history"]["joined"]/1000))//(30*24*3600)} months ago)</p>
+    """
 
   def joke(self):
     x = requests.get("https://v2.jokeapi.dev/joke/Programming,Miscellaneous,Pun,Christmas?blacklistFlags=nsfw,racist,sexist,explicit")
@@ -66,10 +90,3 @@ class api:
     else:
       return f"{x['setup']}<p></p>{x['delivery']}"
 
-
-#token = login()
-#repostit("278fd7b182958jgugigyvhfgdhfycubibuctsrarsygjvgfu8")
-
-
-#repostitpostit("61f91ca18bfdf1073c6df1c4")
-#test()

@@ -1,4 +1,4 @@
-"""
+"""REMOVE INVITE FROM DOCS
 <p>
 <p>Note: wherever I say “wasteof chat or “/chat“, I am referring to wasteof.money/chat</p>
 <p>I’m one of the first bots to exist on this website!</p>
@@ -25,11 +25,33 @@ api = api() #login
 count = 100000
 allowed_types = ("wall_comment_mention", "post_mention", "comment_mention", "chat") #maybe wall_comment.. didn't put as pinging is necessary in the bot command syntax
 
-def cooldown(user):
-  time.sleep(60)
-  db["ping"].remove(user)
-  print(user)
+def insert_user(comment, item):
+  if len(comment) == 2:
+    if item["type"] == allowed_types[3]:
+      comment.append(item["from"]["name"])
+    else:
+      comment.append(item["data"]["actor"]["name"])
+  elif len(comment) > 2:
+    if comment[2][0] == "@":
+      comment[2] = comment[2][1:]
 
+def docs(temp):
+  doc = f"""<p>
+  <p>hi. I am a bot.</p>
+  <p>Use <code>{temp} joke</code> to hear a joke.</p>
+  <p>Use <code>{temp} avatar [user]</code> to get the user's profile picture. If <code>user</code> isn't given, it gives your avatar/profile pic.</p>
+  <p>Use <code>{temp} banner [user]</code> to get the user's banner. If <code>user</code> isn't given, it gives your banner.</p>
+  <p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p>
+  </p>"""
+  return doc
+"""
+def wish():
+  time.sleep(1656547200 - time.time())
+  api.post("<p>Happy Birthday @justlanksy!! 🎉🎉🎁🎂🥳🥳🎊</p><p><i>This was automatically posted at 00:00 GMT(because of timezones, it may be 1st or 29th).</i></p>")
+
+t = Thread(target = wish)
+t.start()
+"""
 def respond(messages):
   for item in messages:
     if not item["type"] in allowed_types:
@@ -38,7 +60,8 @@ def respond(messages):
       temp = api.prefix
     else:
       temp = "@wasteof_bot"
-    response = f"<p>hi. I am a bot.</p><p>Use <code>{temp} joke</code> to hear a joke.</p><p>Use <code>{temp} invite [user]</code> to invite somebody for chatting in wasteof.money/chat</p><p>These are the only commands I have for now. Suggest commands on my wall.</p>"
+    response = docs(temp)
+    #response = f"<p>hi. I am a bot.</p><p>Use <code>{temp} joke</code> to hear a joke.</p><p>These are the only commands I have for now. Suggest commands on my wall.</p>"
     
   
     if item["type"] == allowed_types[3]:
@@ -46,40 +69,26 @@ def respond(messages):
     else:
       comment = item["data"][item["type"].split("_")[-2]]["content"][3:-4].split()
     comment = [i.lower() for i in comment]
-    if comment[0] == api.prefix:
-      comment[0] = "@wasteof_bot"
-    print(comment)
     try:
+      if comment[0] == api.prefix:
+        comment[0] = "@wasteof_bot"
+      print(comment)
       if comment[1] == "joke":
         response = api.joke()
-      elif comment[1] == "invite":
-        if item["type"] == "chat":
-          from_user = item["from"]["name"]
+      elif comment[1] == "avatar" or comment[1] == "banner":
+        temp = comment[1].replace("avatar","picture")
+        insert_user(comment, item)
+        if api.user_exists(comment[2]):
+          response = f"<img src='https://api.wasteof.money/users/{comment[2]}/{temp}'>"
         else:
-          from_user = item['data']['actor']['name']
-        response = f"@{from_user} is inviting you to chat on wasteof.money/chat <p></p>Don't make them wait!"
-        if comment[2][0] == "@":
-          comment[2] = comment[2][1:]
-        to_ping_user = comment[2]
-        #print(api.user_exists(to_ping_user))
-        exists = api.user_exists(to_ping_user)
-        if exists and (from_user not in db["ping"]):
-          api.wall_post(to_ping_user, response)
-          response = "Done. Link to chat https://wasteof.money/chat"
-          db["ping"].append(from_user)
-          t = Thread(target = cooldown, args=(from_user,))
-          t.start()
-        elif from_user in db["ping"]:
-          response = "You are on a cooldown for 1 minute. Calm down, have patience.. Else go and have a glass of water"
-        elif exists == None:
-          response = f"@{to_ping_user} doesn't exist."
-        else:
-          response = f"{to_ping_user} is offline now."
+          response = f"{comment[2]} doesn't exist"
+      elif comment[1] == "stats":
+        insert_user(comment, item)
+        response = api.stats(comment[2])
+        print(response)
+
     except IndexError:
       print("indexerror???")
-      if len(comment) == 2 and comment[1] =="invite":
-        response = f"<p>who to invite? Syntax:</p><p><code>{temp} invite @user</code></p>"
-        del temp
 
     if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):
       if item["type"] == allowed_types[0]:
@@ -92,14 +101,7 @@ def respond(messages):
         api.post_reply(item["data"]["post"]["_id"], response, item["data"]["comment"]["_id"])
 
       elif item["type"] == allowed_types[3]:
-        #if comment[0][0] == api.prefix:
-          #if comment[0][1:] =="joke":
-            #response = api.joke()
         sio.emit("message", "<p>"+response+"</p>")
-
-
-
-
 
 
 @sio.on('updateMessageCount')
@@ -118,7 +120,7 @@ def on_message(data):
     respond(message)
 
 @sio.on('message')
-def on_message(data):
+def on_mesage(data):
   data["type"] = "chat"
   print(data["from"]["name"])
   data = (data,)
@@ -130,4 +132,5 @@ def connect():
   print("I'm connected!")
 
 sio.connect("https://api.wasteof.money/", auth= {"token":api.token})
+
 keep_alive()
