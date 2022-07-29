@@ -5,6 +5,10 @@
 <p>I work on the whole site! (Including wasteof chat!)</p>
 <p>Here is how to use me:</p>
 
+<li>Use <code>{temp} joke</code> to hear a <b>joke</b>.</li>
+<li>Use <code>{temp} avatar [user]</code> to get the user's <b>profile picture</b>. If <code>user</code> isn't given, it gives your avatar/profile pic.</li>
+<li>Use <code>{temp} banner [user]</code> to get the user's <b>banner</b>. If <code>user</code> isn't given, it gives your banner.</li>
+<li>Use <code>{temp} stats [user]</code> to get the user's <b>statistics</b>. If <code>user</code> isn't given, it gives your stats.</li>
 </p>
 """
 
@@ -12,7 +16,7 @@ from wasteof import api
 from keep_alive import keep_alive
 from threading import Thread
 from replit import db
-import os, time, json
+import os, time, json, random
 
 db["ping"] = []
 
@@ -23,6 +27,7 @@ sio = socketio.Client(logger=True)
 
 api = api() #login
 count = 100000
+coin = ("heads, ", "tails, ")
 allowed_types = ("wall_comment_mention", "post_mention", "comment_mention", "chat") #maybe wall_comment.. didn't put as pinging is necessary in the bot command syntax
 
 def insert_user(comment, item):
@@ -38,17 +43,23 @@ def insert_user(comment, item):
 def docs(temp):
   doc = f"""<p>
   <p>hi. I am a bot.</p>
-  <p>Use <code>{temp} joke</code> to hear a <b>joke</b>.</p>
-  <p>Use <code>{temp} avatar [user]</code> to get the user's <b>profile picture</b>. If <code>user</code> isn't given, it gives your avatar/profile pic.</p>
-  <p>Use <code>{temp} banner [user]</code> to get the user's <b>banner</b>. If <code>user</code> isn't given, it gives your banner.</p>
-  <p>Use <code>{temp} stats [user]</code> to get the user's <b>statistics</b>. If <code>user</code> isn't given, it gives your stats.</p>
+  <p>Commands:</p><ul>
+  <li><code>{temp} joke</code> to hear a <b>joke</b></li>
+  <li><code>{temp} coinflip</code> to <b>flip a coin</b></li>
+  <li><code>{temp} avatar [user]</code> to get the user's <b>profile picture</b>. If <code>user</code> isn't given, it gives your avatar/profile pic</li>
+  <li><code>{temp} banner [user]</code> to get the user's <b>banner</b>. If <code>user</code> isn't given, it gives your banner</li>
+  <li><code>{temp} stats [user]</code> to get the user's <b>statistics</b>. If <code>user</code> isn't given, it gives your stats</li>
+  </ul>
   <p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p>
   </p>"""
+  if temp == "wob":
+    doc = doc.replace("\n  </ul>\n  <p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p>","").replace("<code>","`").replace("</code>", "`").replace("<li>", "<p>● ").replace("</li>","</p>").replace("<ul>", "")
+    print(len(doc))
   return doc
 """
 def wish():
   time.sleep(1656547200 - time.time())
-  api.post("<p>Happy Birthday @justlanksy!! 🎉🎉🎁🎂🥳🥳🎊</p><p><i>This was automatically posted at 00:00 GMT(because of timezones, it may be 1st or 29th).</i></p>")
+  api.post("<p>Happy Birthday @<user>!! 🎉🎉🎁🎂🥳🥳🎊</p><p><i>This was automatically posted at 00:00 GMT(because of timezones, it may be 1st or 29th).</i></p>")
 
 t = Thread(target = wish)
 t.start()
@@ -66,16 +77,39 @@ def respond(messages):
     
   
     if item["type"] == allowed_types[3]:
-      comment = item["content"].split()
+      comment = item["content"].strip().split()
     else:
-      comment = item["data"][item["type"].split("_")[-2]]["content"][3:-4].split()
+      comment = item["data"][item["type"].split("_")[-2]]["content"][3:-4].strip().split()
     comment = [i.lower() for i in comment]
+    if "|" in comment:
+      comment = comment[:comment.index("|")]
     try:
       if comment[0] == api.prefix:
         comment[0] = "@wasteof_bot"
       print(comment)
       if comment[1] == "joke":
         response = api.joke()
+      elif comment[1].isdigit():
+        response = "muck"#"0"*int(comment[1])
+      elif comment[1] == "coinflip":
+        response = f"You got a "
+        endcoin = "!"
+        coins = 1
+        if len(comment) == 2:
+          comment.append("1")
+        if comment[2].isdigit():
+          coins = int(comment[2])
+          if coins > 10:
+            coins = 10
+            endcoin = "! Sorry, I only have 10 coins..."
+          if coins < 1:
+            coins = 1
+            endcoin = "! I will flip because I have 🪙s" 
+        for I in range(coins):
+          response += coin[random.randint(0,1)]
+        response = response[:-2] + endcoin
+            
+
       elif comment[1] == "avatar" or comment[1] == "banner":
         temp = comment[1].replace("avatar","picture")
         insert_user(comment, item)
@@ -90,7 +124,7 @@ def respond(messages):
 
     except IndexError:
       print("indexerror???")
-
+      
     if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):
       if item["type"] == allowed_types[0]:
         api.wall_reply(item["data"]["comment"]["wall"]["name"], item["data"]["comment"]["_id"], response)
