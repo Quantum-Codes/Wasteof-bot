@@ -40,20 +40,49 @@ def insert_user(comment, item):
     if comment[2][0] == "@":
       comment[2] = comment[2][1:]
 
+def randomroll(comment, default, max, mode):
+  response = f"You got a "
+  endcoin = "!"
+  coins = default
+  if len(comment) == 2:
+    comment.append(str(default))
+  if comment[2].isdigit():
+    coins = int(comment[2])
+    if coins > max:
+      coins = max
+      if mode == "coin":
+        endcoin = "! Sorry, I only have 10 coins..."
+      else:
+        endcoin = "! Sorry, I cannot make more than a <b>QUADRILLION</b> faces on a dice."
+    if coins < 1:
+      coins = 1
+      if mode == "coin":
+        endcoin = "! I will flip because I have 🪙s"
+      else:
+        endcoin = "! I have a dice and I will roll it! You can't stop me."
+  if mode == "coin":
+    for I in range(coins):
+      response += coin[random.randint(0,1)]
+    response = response[:-2] + endcoin
+    return response
+  else:
+    return f"{response} {random.randint(1, coins)}{endcoin}" 
+
 def docs(temp):
   doc = f"""<p>
-  <p>hi. I am a bot.</p>
-  <p>Commands:</p><ul>
-  <li><code>{temp} joke</code> to hear a <b>joke</b></li>
-  <li><code>{temp} coinflip</code> to <b>flip a coin</b></li>
-  <li><code>{temp} avatar [user]</code> to get the user's <b>profile picture</b>. If <code>user</code> isn't given, it gives your avatar/profile pic</li>
-  <li><code>{temp} banner [user]</code> to get the user's <b>banner</b>. If <code>user</code> isn't given, it gives your banner</li>
-  <li><code>{temp} stats [user]</code> to get the user's <b>statistics</b>. If <code>user</code> isn't given, it gives your stats</li>
-  </ul>
-  <p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p>
-  </p>"""
+<p>hi. I am a bot.</p>
+<p>Commands:</p><ul>
+<li><code>{temp} joke</code> to hear a <b>joke</b></li>
+<li><code>{temp} coinflip</code> to <b>flip a coin</b></li>
+<li><code>{temp} rolldice [faces]</code> to <b>roll a dice</b>. If <code>faces</code> isn't given, it defaults to 6.</li>
+<li><code>{temp} avatar [user]</code> to get the user's <b>profile picture</b>. If <code>user</code> isn't given, it gives your avatar/profile pic</li>
+<li><code>{temp} banner [user]</code> to get the user's <b>banner</b>. If <code>user</code> isn't given, it gives your banner</li>
+<li><code>{temp} stats [user]</code> to get the user's <b>statistics</b>. If <code>user</code> isn't given, it gives your stats</li>
+</ul>
+<p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p>
+</p>"""
   if temp == "wob":
-    doc = doc.replace("\n  </ul>\n  <p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p>","").replace("<code>","`").replace("</code>", "`").replace("<li>", "<p>● ").replace("</li>","</p>").replace("<ul>", "")
+    doc = doc.replace("\n</ul>\n<p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p>","").replace("<code>","`").replace("</code>", "`").replace("<li>", "<p>● ").replace("</li>","</p>").replace("<ul>", "")
     print(len(doc))
   return doc
 """
@@ -77,7 +106,13 @@ def respond(messages):
     
   
     if item["type"] == allowed_types[3]:
-      comment = item["content"].strip().split()
+      comment = item["content"].strip()
+      if item["from"]["name"] == "bridge":
+        pos = comment.find(":") + 1
+        if pos != 0:
+          comment = comment[pos:]
+        del pos
+      comment = comment.split()
     else:
       comment = item["data"][item["type"].split("_")[-2]]["content"][3:-4].strip().split()
     comment = [i.lower() for i in comment]
@@ -92,24 +127,11 @@ def respond(messages):
       elif comment[1].isdigit():
         response = "muck"#"0"*int(comment[1])
       elif comment[1] == "coinflip":
-        response = f"You got a "
-        endcoin = "!"
-        coins = 1
-        if len(comment) == 2:
-          comment.append("1")
-        if comment[2].isdigit():
-          coins = int(comment[2])
-          if coins > 10:
-            coins = 10
-            endcoin = "! Sorry, I only have 10 coins..."
-          if coins < 1:
-            coins = 1
-            endcoin = "! I will flip because I have 🪙s" 
-        for I in range(coins):
-          response += coin[random.randint(0,1)]
-        response = response[:-2] + endcoin
-            
+        response = randomroll(comment, 1, 10, "coin")
 
+      elif comment[1] == "rolldice":
+        response = randomroll(comment, 6, 1000000000000000, "dice")
+        
       elif comment[1] == "avatar" or comment[1] == "banner":
         temp = comment[1].replace("avatar","picture")
         insert_user(comment, item)
@@ -120,7 +142,6 @@ def respond(messages):
       elif comment[1] == "stats":
         insert_user(comment, item)
         response = api.stats(comment[2])
-        print(response)
 
     except IndexError:
       print("indexerror???")

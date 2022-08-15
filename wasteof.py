@@ -66,15 +66,26 @@ class api:
     if post.get("error"):
       return "User doesnt exist"
     print(post)
-    return f"""<p><b>{user}</b> {emoji[post["online"]]} {emoji[post["verified"]+2]} {emoji[post["permissions"]["admin"]+4]} {emoji[post["beta"]+8]} {emoji[post["permissions"]["banned"]+6]}</p>
-    <p><b>ID:</b>        {post["id"]}</p>
-    <p><b>Bio:</b>       {post["bio"]}</p>
-    <p><b>Followers:</b> {post["stats"]["followers"]}</p>
-    <p><b>Following:</b> {post["stats"]["following"]}</p>
-    <p><b>Posts:</b>     {post["stats"]["posts"]}</p>
-    <p><b>Joined:</b>    {time.strftime('%d-%m-%Y', time.gmtime(int(post["history"]["joined"]/1000)))} (
-    {(int(time.time()) - int(post["history"]["joined"]/1000))//(30*24*3600)} months ago)</p>
-    """
+    res = f"""<p><b>{user}</b> {emoji[post["online"]]} {emoji[post["verified"]+2]} {emoji[post["permissions"]["admin"]+4]} {emoji[post["beta"]+8]} {emoji[post["permissions"]["banned"]+6]}</p>
+<p><b>ID:</b>        {post["id"]}</p>
+<p><b>Bio:</b>       {post["bio"]}</p>
+<p><b>Followers:</b> {post["stats"]["followers"]}</p>
+<p><b>Following:</b> {post["stats"]["following"]}</p>
+<p><b>Posts:</b>     {post["stats"]["posts"]}</p>
+"""
+
+    if post.get("history"):
+      joining = (int(time.time()) - int(post["history"]["joined"]/1000))//(24*3600)
+      jointype = "days"
+      if joining >= 30:
+        joining //= 30
+        jointype = "months"
+        if joining >= 12:
+          joining = int(joining*100 / 12)/100
+          jointype = "years"
+      res += f"""<p><b>Joined:</b>    {time.strftime('%d-%m-%Y', time.gmtime(int(post["history"]["joined"]/1000)))} ({joining} {jointype} ago)</p>"""
+
+    return res
 
   def joke(self):
     x = requests.get("https://v2.jokeapi.dev/joke/Programming,Miscellaneous,Pun,Christmas?blacklistFlags=nsfw,racist,sexist,explicit")
