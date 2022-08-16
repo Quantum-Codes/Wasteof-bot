@@ -16,7 +16,7 @@ from wasteof import api
 from keep_alive import keep_alive
 from threading import Thread
 from replit import db
-import os, time, json, random
+import os, time, json, random, time
 
 db["ping"] = []
 
@@ -140,7 +140,14 @@ def respond(messages):
         api.post_reply(item["data"]["post"]["_id"], response, item["data"]["comment"]["_id"])
 
       elif item["type"] == allowed_types[3]:
-        sio.emit("message", "<p>"+response+"</p>")
+        if type(response) is list:
+          for item1 in response:
+            sio.emit("message", "<p>"+item1+"</p>")
+            if item["from"]["name"] == "bridge":
+              time.sleep(0.05)
+        else:
+          print("no list", type(response) is list)
+          sio.emit("message", "<p>"+response+"</p>")
 
 
 @sio.on('updateMessageCount')

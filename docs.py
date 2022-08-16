@@ -14,7 +14,7 @@ def search(target, list1):
 
 def splitter(message, lim):
   doc = message.split("\n")
-  lengths = [len(item) for item in doc]
+  lengths = [len(item)+7 for item in doc] #7 is length of </p><p>
   added_lengths = [0]
   for item in lengths:
     added_lengths.append(added_lengths[-1] + item)
@@ -25,8 +25,8 @@ def splitter(message, lim):
     if added_lengths[-1] > lim*i:
       x.append(search(lim*i, added_lengths))
   x.append(None)
-  print(x)
-  messages = ["\n".join(doc[x[index-1]:item]) for index,item in enumerate(x)]
+  messages = ["</p>\n<p>".join(doc[x[index-1]:item]) for index,item in enumerate(x)]
+  return messages
   with open("test2.json","w") as file:
     file.write(json.dumps(messages, indent=2))
 
@@ -46,7 +46,7 @@ def docs(temp):
 ●`wob stats [user]` to get the user's <b>statistics</b>. If `user` isn't given, it gives your stats
 <i>These are the only commands I have for now. Suggest commands on my wall.</i>
 </p>"""
-    message += ("\n" + "0"*100)*5
+    #message += ("\n" + "0"*100)*5
     return splitter(message,493)
 
   else:
@@ -61,5 +61,3 @@ def docs(temp):
 </ul>
 <p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p></p>"""
     return doc
-
-docs("wob")
