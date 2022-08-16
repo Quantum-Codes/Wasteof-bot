@@ -99,5 +99,5 @@ class api:
     if x["type"] == "single":
       return x["joke"]
     else:
-      return f"{x['setup']}<p></p>{x['delivery']}"
+      return f"{x['setup']}<p>\n</p>{x['delivery']}"
 

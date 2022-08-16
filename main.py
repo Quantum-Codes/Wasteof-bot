@@ -11,7 +11,7 @@
 <li>Use <code>{temp} stats [user]</code> to get the user's <b>statistics</b>. If <code>user</code> isn't given, it gives your stats.</li>
 </p>
 """
-
+from docs import docs
 from wasteof import api
 from keep_alive import keep_alive
 from threading import Thread
@@ -68,23 +68,6 @@ def randomroll(comment, default, max, mode):
   else:
     return f"{response} {random.randint(1, coins)}{endcoin}" 
 
-def docs(temp):
-  doc = f"""<p>
-<p>hi. I am a bot.</p>
-<p>Commands:</p><ul>
-<li><code>{temp} joke</code> to hear a <b>joke</b></li>
-<li><code>{temp} coinflip</code> to <b>flip a coin</b></li>
-<li><code>{temp} rolldice [faces]</code> to <b>roll a dice</b>. If <code>faces</code> isn't given, it defaults to 6.</li>
-<li><code>{temp} avatar [user]</code> to get the user's <b>profile picture</b>. If <code>user</code> isn't given, it gives your avatar/profile pic</li>
-<li><code>{temp} banner [user]</code> to get the user's <b>banner</b>. If <code>user</code> isn't given, it gives your banner</li>
-<li><code>{temp} stats [user]</code> to get the user's <b>statistics</b>. If <code>user</code> isn't given, it gives your stats</li>
-</ul>
-<p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p>
-</p>"""
-  if temp == "wob":
-    doc = doc.replace("\n</ul>\n<p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p>","").replace("<code>","`").replace("</code>", "`").replace("<li>", "<p>● ").replace("</li>","</p>").replace("<ul>", "")
-    print(len(doc))
-  return doc
 """
 def wish():
   time.sleep(1656547200 - time.time())

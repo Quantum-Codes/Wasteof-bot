@@ -1,0 +1,8 @@
+hi. I am a bot.
+Commands:
+●`wob joke` to hear a <b>joke</b>
+●`wob coinflip` to <b>flip a coin</b>
+●`wob rolldice [faces]` to <b>roll a dice</b>. If `faces` isn't given, it defaults to 6
+●`wob avatar [user]` to get the user's <b>profile picture</b>. If `user` isn't given, it gives your avatar/profile pic
+●`wob banner [user]` to get the user's <b>banner</b>. If `user` isn't given, it gives your banner
+●`wob stats [user]` to get the user's <b>statistics</b>. If `user` isn't given, it gives your stats
