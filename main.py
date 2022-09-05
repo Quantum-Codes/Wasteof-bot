@@ -1,4 +1,9 @@
-"""REMOVE INVITE FROM DOCS
+"""MADE TRACKING. LATER TRANSFER track command functionality and graph making + uploading to github for cron jobs (track list in https://Wasteof-api-test.quantumcodes.repl.co/track)
+
+
+TO MAKE GRAPH IN STATS COMMAND (follow + following data I same linechart)
+MAYBE MAKE COMPARISON CHART VS ALL USERS
+
 <p>
 <p>Note: wherever I say “wasteof chat or “/chat“, I am referring to wasteof.money/chat</p>
 <p>I’m one of the first bots to exist on this website!</p>
@@ -12,20 +17,21 @@
 </p>
 """
 from docs import docs
+from net import net
 from wasteof import api
 from keep_alive import keep_alive
-from threading import Thread
 from replit import db
-import os, time, json, random, time
-
-db["ping"] = []
-
+import os, json, random
+#"""
+#db["track"] = []
+#"""
+prev_net = 0
 os.system("pip install python-socketio[client]")
 os.system("clear")
 import socketio
 sio = socketio.Client(logger=True)
 
-api = api() #login
+api = api()
 count = 100000
 coin = ("heads, ", "tails, ")
 allowed_types = ("wall_comment_mention", "post_mention", "comment_mention", "chat") #maybe wall_comment.. didn't put as pinging is necessary in the bot command syntax
@@ -68,15 +74,9 @@ def randomroll(comment, default, max, mode):
   else:
     return f"{response} {random.randint(1, coins)}{endcoin}" 
 
-"""
-def wish():
-  time.sleep(1656547200 - time.time())
-  api.post("<p>Happy Birthday @<user>!! 🎉🎉🎁🎂🥳🥳🎊</p><p><i>This was automatically posted at 00:00 GMT(because of timezones, it may be 1st or 29th).</i></p>")
 
-t = Thread(target = wish)
-t.start()
-"""
 def respond(messages):
+  global prev_net
   for item in messages:
     if not item["type"] in allowed_types:
       continue
@@ -85,20 +85,15 @@ def respond(messages):
     else:
       temp = "@wasteof_bot"
     response = docs(temp)
-    #response = f"<p>hi. I am a bot.</p><p>Use <code>{temp} joke</code> to hear a joke.</p><p>These are the only commands I have for now. Suggest commands on my wall.</p>"
     
-  
     if item["type"] == allowed_types[3]:
-      comment = item["content"].strip()
-      if item["from"]["name"] == "bridge":
-        pos = comment.find(":") + 1
-        if pos != 0:
-          comment = comment[pos:]
-        del pos
-      comment = comment.split()
+      client = item["from"]
+      comment = item["content"].strip().split()
     else:
+      client = item["data"]["actor"]
       comment = item["data"][item["type"].split("_")[-2]]["content"][3:-4].strip().split()
     comment = [i.lower() for i in comment]
+
     if "|" in comment:
       comment = comment[:comment.index("|")]
     try:
@@ -111,10 +106,8 @@ def respond(messages):
         response = "muck"#"0"*int(comment[1])
       elif comment[1] == "coinflip":
         response = randomroll(comment, 1, 10, "coin")
-
       elif comment[1] == "rolldice":
         response = randomroll(comment, 6, 1000000000000000, "dice")
-        
       elif comment[1] == "avatar" or comment[1] == "banner":
         temp = comment[1].replace("avatar","picture")
         insert_user(comment, item)
@@ -125,9 +118,18 @@ def respond(messages):
       elif comment[1] == "stats":
         insert_user(comment, item)
         response = api.stats(comment[2])
+      elif comment[1] == "track":
+        if client["id"] in db["track"]:
+          index = db["track"].index(client["id"])
+          db["track"].pop(index)
+          response=  "You have <b>opted-out</b> for me to <s>stalk</s> track statistics. Don't complain later that I don't show your stats in graph."
+        else:
+          db["track"].append(client["id"])
+          response = "You have <b>opted-in</b> for me to <s>stalk you</s> track your statistics. Through this, you will be able to use an upcoming feature which will show your graph of statistics in stats command."
+        
 
     except IndexError:
-      print("indexerror???")
+      print("No command given")
       
     if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):
       if item["type"] == allowed_types[0]:
@@ -143,11 +145,12 @@ def respond(messages):
         if type(response) is list:
           for item1 in response:
             sio.emit("message", "<p>"+item1+"</p>")
-            if item["from"]["name"] == "bridge":
-              time.sleep(0.05)
         else:
-          print("no list", type(response) is list)
+          #print("no list", type(response) is list)
           sio.emit("message", "<p>"+response+"</p>")
+
+  print(net() - prev_net, "MB")
+  prev_net = net()
 
 
 @sio.on('updateMessageCount')
@@ -163,18 +166,31 @@ def on_message(data):
     message = api.read_message().json()["unread"][0:messages]
     #with open("post.json","w") as file:
       #file.write(json.dumps(message,indent=2))
-    respond(message)
+    msg_save = message[:]
+    if "jeff" in json.dumps(msg_save):
+      with open("logs.txt", "a") as file:
+        file.write(f"JEFF:\n{msg_save}\n\n\n-----\n\n")
+    try:
+      respond(message)
+    except Exception as e:
+      with open("logs.txt", "a") as file:
+        file.write(f"Message:\n{msg_save}\n\n{e}\n-----\n\n")
 
 @sio.on('message')
 def on_mesage(data):
   data["type"] = "chat"
   print(data["from"]["name"])
   data = (data,)
-  respond(data)#data in tuple/list only
+  data_save = data[:]
+  try:
+    respond(data)#data in tuple/list only
+  except Exception as e:
+    with open("logs.txt", "a") as file:
+      file.write(f"Chat:\n{data_save}\n\n{e}\n-----\n\n")
 
 @sio.event
 def connect():
-  sio.emit("message","[auto message] Bot started")
+  #sio.emit("message","@everyone , From now I will not irritate humanity by spamming when I reatarted!! I will instead finish your whole existence. For now, you may wait for extinction in peace.")
   print("I'm connected!")
 
 sio.connect("https://api.wasteof.money/", auth= {"token":api.token})

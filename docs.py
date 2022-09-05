@@ -4,8 +4,6 @@ def search(target, list1, start): #my style binary search B)
   if list1[approx] > target:
     x = search(target, list1)
 """
-import json
-
 
 def search(target, list1):
   for item in list1:
@@ -19,7 +17,7 @@ def splitter(message, lim):
   for item in lengths:
     added_lengths.append(added_lengths[-1] + item)
   added_lengths.pop(0)
-  print(lengths, "\n", "x",  "\n", added_lengths)
+  #print(lengths, "\n", "x",  "\n", added_lengths)
   x = []
   for i in range(1,added_lengths[-1]//lim +2):
     if added_lengths[-1] > lim*i:
@@ -27,12 +25,7 @@ def splitter(message, lim):
   x.append(None)
   messages = ["</p>\n<p>".join(doc[x[index-1]:item]) for index,item in enumerate(x)]
   return messages
-  with open("test2.json","w") as file:
-    file.write(json.dumps(messages, indent=2))
 
-
-
-  
 
 def docs(temp):
   if temp == "wob":
@@ -40,6 +33,7 @@ def docs(temp):
 <u><b>Commands:</b></u>
 ●`wob joke` to hear a <b>joke</b>
 ●`wob coinflip` to <b>flip a coin</b>
+●`wob track` to let me <b>track your stats</b>
 ●`wob rolldice [faces]` to <b>roll a dice</b>. If `faces` isn't given, it defaults to 6
 ●`wob avatar [user]` to get the user's <b>profile picture</b>. If `user` isn't given, it gives your avatar/profile pic
 ●`wob banner [user]` to get the user's <b>banner</b>. If `user` isn't given, it gives your banner
@@ -54,6 +48,7 @@ def docs(temp):
 <p><u>Commands:</u></p><ul>
 <li><code>{temp} joke</code> to hear a <b>joke</b></li>
 <li><code>{temp} coinflip</code> to <b>flip a coin</b></li>
+<li><code>{temp} track</code> to let me <b>track your stats</b></li>
 <li><code>{temp} rolldice [faces]</code> to <b>roll a dice</b>. If <code>faces</code> isn't given, it defaults to 6</li>
 <li><code>{temp} avatar [user]</code> to get the user's <b>profile picture</b>. If <code>user</code> isn't given, it gives your avatar/profile pic</li>
 <li><code>{temp} banner [user]</code> to get the user's <b>banner</b>. If <code>user</code> isn't given, it gives your banner</li>

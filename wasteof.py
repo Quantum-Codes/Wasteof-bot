@@ -47,21 +47,27 @@ class api:
     return post
 
   def user_online(self, user):
-    post = requests.get(f"https://api.wasteof.money/users/{user}")
+    post = requests.get(f"https://api.wasteof.money/users/{user}",  headers= self.header)
     #print(post)
     post = post.json().get("online", None) #error key may also come up
     return post
 
   def user_exists(self, user):
-    post = requests.get(f"https://api.wasteof.money/username-available?username={user}").json()
+    post = requests.get(f"https://api.wasteof.money/username-available?username={user}",  headers=self.header).json()
     post = 1 - post.get("available", True)
     return bool(post)
 
+  def _stats(self, id):
+    user = requests.get(f"https://api.wasteof.money/username-from-id/{id}",  headers=self.header).json()["username"]
+    post = requests.get(f"https://api.wasteof.money/users/{user}",  headers=self.header).json()["stats"]
+    post["user"] = user
+    return post
+  
   def stats(self, user):
     emoji = ("🔴", "🟢", "","✅","","🛡","","🚫","","🧪")
-    print(user)
-    post = requests.get(f"https://api.wasteof.money/users/{user}")
-    print(post)
+    #1print(user)
+    post = requests.get(f"https://api.wasteof.money/users/{user}",  headers=self.header)
+    #print(post)
     post = post.json()
     if post.get("error"):
       return "User doesnt exist"
@@ -99,5 +105,5 @@ class api:
     if x["type"] == "single":
       return x["joke"]
     else:
-      return f"{x['setup']}<p>\n</p>{x['delivery']}"
+      return f"{x['setup']}</p>\n<p>{x['delivery']}"
 
