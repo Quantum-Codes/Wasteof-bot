@@ -1,9 +1,4 @@
-"""MADE TRACKING. LATER TRANSFER track command functionality and graph making + uploading to github for cron jobs (track list in https://Wasteof-api-test.quantumcodes.repl.co/track)
-
-
-TO MAKE GRAPH IN STATS COMMAND (follow + following data I same linechart)
-MAYBE MAKE COMPARISON CHART VS ALL USERS
-
+"""
 <p>
 <p>Note: wherever I say “wasteof chat or “/chat“, I am referring to wasteof.money/chat</p>
 <p>I’m one of the first bots to exist on this website!</p>
@@ -27,9 +22,13 @@ import os, json, random
 #"""
 prev_net = 0
 os.system("pip install python-socketio[client]")
+os.system("pip install pyEventLogger")
 os.system("clear")
 import socketio
+from pyEventLogger import pyLogger
+
 sio = socketio.Client(logger=True)
+log = pyLogger(colored_output=True, make_file=True)
 
 api = api()
 count = 100000
@@ -81,10 +80,10 @@ def respond(messages):
     if not item["type"] in allowed_types:
       continue
     if item["type"] == "chat":
-      temp = api.prefix
+      prefix = api.prefix
     else:
-      temp = "@wasteof_bot"
-    response = docs(temp)
+      prefix = "@wasteof_bot"
+    response = docs(prefix)
     
     if item["type"] == allowed_types[3]:
       client = item["from"]
@@ -93,10 +92,15 @@ def respond(messages):
       client = item["data"]["actor"]
       comment = item["data"][item["type"].split("_")[-2]]["content"][3:-4].strip().split()
     comment = [i.lower() for i in comment]
-
+    if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):
+      tempo = "COMMAND"
+      if item["type"] == allowed_types[3]:
+        tempo = "CHAT"
+      log.info(message= f"{tempo} - {client['name']} {client['id']} - {comment}")
+      del tempo
     if "|" in comment:
       comment = comment[:comment.index("|")]
-    try:
+    if len(comment) > 1:
       if comment[0] == api.prefix:
         comment[0] = "@wasteof_bot"
       print(comment)
@@ -108,11 +112,23 @@ def respond(messages):
         response = randomroll(comment, 1, 10, "coin")
       elif comment[1] == "rolldice":
         response = randomroll(comment, 6, 1000000000000000, "dice")
+      elif comment[1] == "graph":
+        if len(comment) == 2:
+          response = api.image(client, prefix)
+        else:
+          if comment[2] == "all":
+            response = api.image("all", prefix)
+          else:
+            existence = api.raw_user(comment[2])
+            if existence.get("id"):
+              response = api.image(existence, prefix, True)
+            else:
+              response = "That user doesn't even exist."
       elif comment[1] == "avatar" or comment[1] == "banner":
-        temp = comment[1].replace("avatar","picture")
+        prefix = comment[1].replace("avatar","picture")
         insert_user(comment, item)
         if api.user_exists(comment[2]):
-          response = f"<img src='https://api.wasteof.money/users/{comment[2]}/{temp}'>"
+          response = f"<img src='https://api.wasteof.money/users/{comment[2]}/{prefix}'>"
         else:
           response = f"{comment[2]} doesn't exist"
       elif comment[1] == "stats":
@@ -128,26 +144,29 @@ def respond(messages):
           response = "You have <b>opted-in</b> for me to <s>stalk you</s> track your statistics. Through this, you will be able to use an upcoming feature which will show your graph of statistics in stats command."
         
 
-    except IndexError:
-      print("No command given")
+    else:
+      print("No command given. Docs sent")
       
     if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):
       if item["type"] == allowed_types[0]:
         api.wall_reply(item["data"]["comment"]["wall"]["name"], item["data"]["comment"]["_id"], response)
+        log.success(message=f"COMMAND WALL - Response sent to {client['name']} {client['id']}")
 
       elif item["type"] == allowed_types[1]:
         api.post_reply(item["data"]["post"]["_id"], response)
+        log.success(message=f"COMMAND POST - Response sent to {client['name']} {client['id']}")
 
       elif item["type"] == allowed_types[2]:
         api.post_reply(item["data"]["post"]["_id"], response, item["data"]["comment"]["_id"])
+        log.success(message=f"COMMAND POST_REPLY - Response sent to {client['name']} {client['id']}")
 
       elif item["type"] == allowed_types[3]:
         if type(response) is list:
           for item1 in response:
             sio.emit("message", "<p>"+item1+"</p>")
         else:
-          #print("no list", type(response) is list)
           sio.emit("message", "<p>"+response+"</p>")
+        log.success(message=f"CHAT - Response sent to {client['name']} {client['id']}")
 
   print(net() - prev_net, "MB")
   prev_net = net()
@@ -163,34 +182,26 @@ def on_message(data):
   count = data
   print(f"{count = } {messages = }")
   if messages > 0:
-    message = api.read_message().json()["unread"][0:messages]
-    #with open("post.json","w") as file:
-      #file.write(json.dumps(message,indent=2))
-    msg_save = message[:]
-    if "jeff" in json.dumps(msg_save):
-      with open("logs.txt", "a") as file:
-        file.write(f"JEFF:\n{msg_save}\n\n\n-----\n\n")
+    message = api.read_message().json()["unread"][:messages]
     try:
       respond(message)
     except Exception as e:
-      with open("logs.txt", "a") as file:
-        file.write(f"Message:\n{msg_save}\n\n{e}\n-----\n\n")
+      print(e)
+      log.error(True)
+
 
 @sio.on('message')
 def on_mesage(data):
   data["type"] = "chat"
-  print(data["from"]["name"])
   data = (data,)
-  data_save = data[:]
   try:
-    respond(data)#data in tuple/list only
+    respond(data)
   except Exception as e:
-    with open("logs.txt", "a") as file:
-      file.write(f"Chat:\n{data_save}\n\n{e}\n-----\n\n")
+    print(e)
+    log.error(True)
 
 @sio.event
 def connect():
-  #sio.emit("message","@everyone , From now I will not irritate humanity by spamming when I reatarted!! I will instead finish your whole existence. For now, you may wait for extinction in peace.")
   print("I'm connected!")
 
 sio.connect("https://api.wasteof.money/", auth= {"token":api.token})

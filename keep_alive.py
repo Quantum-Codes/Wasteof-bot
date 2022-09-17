@@ -11,6 +11,9 @@ def pingpage():
 def trackpage():
   return db.get_raw("track")
 
+@app.route("/ping", methods = ["GET", "POST"])
+def res():
+  return "HELLO", 202
 
 def keep_alive():
   app.run("0.0.0.0", port=8080)

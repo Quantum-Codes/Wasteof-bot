@@ -1,4 +1,5 @@
 import requests, os, json, time
+from replit import db
 
 class api:
   def __init__(self):
@@ -45,17 +46,18 @@ class api:
     #print(post,"\n", vars(post))
     print(post.json())
     return post
-
-  def user_online(self, user):
+  def raw_user(self, user):
     post = requests.get(f"https://api.wasteof.money/users/{user}",  headers= self.header)
-    #print(post)
-    post = post.json().get("online", None) #error key may also come up
+    post = post.json()
     return post
+    
+  def user_online(self, user):
+    return self.raw_user(user).get("online", None) #error key may also come up
 
   def user_exists(self, user):
     post = requests.get(f"https://api.wasteof.money/username-available?username={user}",  headers=self.header).json()
-    post = 1 - post.get("available", True)
-    return bool(post)
+    r = 1 - post.get("available", True)
+    return bool(r)
 
   def _stats(self, id):
     user = requests.get(f"https://api.wasteof.money/username-from-id/{id}",  headers=self.header).json()["username"]
@@ -71,7 +73,7 @@ class api:
     post = post.json()
     if post.get("error"):
       return "User doesnt exist"
-    print(post)
+    #print(post)
     res = f"""<p><b>{user}</b> {emoji[post["online"]]} {emoji[post["verified"]+2]} {emoji[post["permissions"]["admin"]+4]} {emoji[post["beta"]+8]} {emoji[post["permissions"]["banned"]+6]}</p>
 <p><b>ID:</b>        {post["id"]}</p>
 <p><b>Bio:</b>       {post["bio"]}</p>
@@ -107,3 +109,27 @@ class api:
     else:
       return f"{x['setup']}</p>\n<p>{x['delivery']}"
 
+  def image(self, user, prefix, passive=False):
+    if user == "all":
+      user = {"name": "Overall wasteof", "id":"Wasteof"}
+    userid = user["id"]
+    if userid in db["track"] or (userid == "Wasteof"):
+      x = requests.get("https://raw.githubusercontent.com/Quantum-Codes/Wob-Graphs/main/url.json").json()
+      match = [(key[key.index("-")+1:-4], value) for key, value in x.items() if key.startswith(f"{userid}-")]
+      if len(match) == 0:
+        y = ""
+        if passive:
+          y = f" for {user['name']}"
+        return f"No graphs to show currently{y}. Return back at the start of next week."
+      match = dict(match)
+    else:
+      y = "You"
+      if passive:
+        return f"{user['name']} didnt use <code>{prefix} track</code>."
+      return f"{y} didnt use <code>{prefix} track</code>. Use it to allow me track you. Return back for a graph next week since data is collected every week."
+    return f"""<p><b><h2>{user['name']}'s graphs</h2></b></p>
+<p><b>Posts:</b><img src=\"{match["posts"]}\"></p>
+<p><b>Followers:</b><img src=\"{match["followers"]}\"></p>
+<p><b>Following:</b><img src=\"{match["following"]}\"></p>
+<p>Note: To stop tracking, you have to use <code>{prefix} track</code>. However, for data deletion, contact Ankit_Anmol on wasteof.</p>
+"""
