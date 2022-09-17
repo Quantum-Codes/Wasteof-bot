@@ -38,6 +38,7 @@ def docs(temp):
 ●`wob avatar [user]` to get the user's <b>profile picture</b>. If `user` isn't given, it gives your avatar/profile pic
 ●`wob banner [user]` to get the user's <b>banner</b>. If `user` isn't given, it gives your banner
 ●`wob stats [user]` to get the user's <b>statistics</b>. If `user` isn't given, it gives your stats
+●`wob graph [user]` to get the user's <b>statistics graphs</b>. If `user` isn't given, it gives your own graphs. If `user` is "all", then you get all of wasteofs graphs in one single image!
 <i>These are the only commands I have for now. Suggest commands on my wall.</i>
 </p>"""
     #message += ("\n" + "0"*100)*5
@@ -53,6 +54,7 @@ def docs(temp):
 <li><code>{temp} avatar [user]</code> to get the user's <b>profile picture</b>. If <code>user</code> isn't given, it gives your avatar/profile pic</li>
 <li><code>{temp} banner [user]</code> to get the user's <b>banner</b>. If <code>user</code> isn't given, it gives your banner</li>
 <li><code>{temp} stats [user]</code> to get the user's <b>statistics</b>. If <code>user</code> isn't given, it gives your stats</li>
+<li><code>wob graph [user]</code> to get the user's <b>statistics graphs</b>. If <code>user</code> isn't given, it gives your own graphs. If <code>user</code> is "<code>all</code>", then you get all of wasteofs graphs in one single image!</li>
 </ul>
 <p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p></p>"""
     return doc
