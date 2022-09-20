@@ -8,21 +8,25 @@ def search(target, list1, start): #my style binary search B)
 def search(target, list1):
   for item in list1:
     if item > target:
-      return list1.index(item)
+      return list1.index(item) #item with  len just more than limit
+  return len(list1) -1 #last index
 
 def splitter(message, lim):
   doc = message.split("\n")
-  lengths = [len(item)+7 for item in doc] #7 is length of </p><p>
+  lengths = [len(item) + 9 for item in doc] #9 is length of </p>\n<p>
   added_lengths = [0]
   for item in lengths:
     added_lengths.append(added_lengths[-1] + item)
   added_lengths.pop(0)
-  #print(lengths, "\n", "x",  "\n", added_lengths)
+  #print("Lengths: ", lengths,  "\nAdded: ", added_lengths)
   x = []
-  for i in range(1,added_lengths[-1]//lim +2):
-    if added_lengths[-1] > lim*i:
-      x.append(search(lim*i, added_lengths))
+  if added_lengths[-1] < lim: #if splitting not needed, simply return
+    return "<p>\n</p>".join(doc)
+
+  for i in range(1,added_lengths[-1]//lim +2): #start from 1 cuz first loop must have lim×1. Formula: total_len//lim +1 repetitions. add 1 to it cuz python excludes max limit in for
+    x.append(search(lim*i, added_lengths))
   x.append(None)
+  #print("Split Index:", x)
   messages = ["</p>\n<p>".join(doc[x[index-1]:item]) for index,item in enumerate(x)]
   return messages
 
@@ -42,7 +46,10 @@ def docs(temp):
 <i>These are the only commands I have for now. Suggest commands on my wall.</i>
 </p>"""
     #message += ("\n" + "0"*100)*5
-    return splitter(message,493)
+    message = splitter(message,493)
+    if message[-1] == "</p>": #bruh. check for black split
+      message.pop(-1)
+    return message
 
   else:
     doc = f"""<p><p>hi. I am a bot.</p>
@@ -58,3 +65,5 @@ def docs(temp):
 </ul>
 <p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p></p>"""
     return doc
+
+#print(f"Result: {[len(item) for item in docs('wob')]}")

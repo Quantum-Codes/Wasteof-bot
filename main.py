@@ -107,7 +107,7 @@ def respond(messages):
       if comment[1] == "joke":
         response = api.joke()
       elif comment[1].isdigit():
-        response = "muck"#"0"*int(comment[1])
+        response = "muck" #"0"*int(comment[1])
       elif comment[1] == "coinflip":
         response = randomroll(comment, 1, 10, "coin")
       elif comment[1] == "rolldice":
@@ -164,6 +164,7 @@ def respond(messages):
         if type(response) is list:
           for item1 in response:
             sio.emit("message", "<p>"+item1+"</p>")
+            log.success(message=f"doc msg {len(item1)}")
         else:
           sio.emit("message", "<p>"+response+"</p>")
         log.success(message=f"CHAT - Response sent to {client['name']} {client['id']}")
