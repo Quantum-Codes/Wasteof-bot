@@ -1,41 +1,62 @@
-2022-09-20 05:48:01 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob']
-2022-09-20 05:48:01 SUCCESS doc msg 410
-2022-09-20 05:48:01 SUCCESS doc msg 500
-2022-09-20 05:48:01 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
-2022-09-20 05:49:04 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob']
-2022-09-20 05:49:04 SUCCESS doc msg 410
-2022-09-20 05:49:04 SUCCESS doc msg 500
-2022-09-20 05:49:04 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
-2022-09-20 05:50:53 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob']
-2022-09-20 05:50:53 SUCCESS doc msg 410
-2022-09-20 05:50:53 SUCCESS doc msg 499
-2022-09-20 05:50:53 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
-2022-09-20 07:12:16 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob']
-2022-09-20 07:12:16 SUCCESS doc msg 410
-2022-09-20 07:12:16 SUCCESS doc msg 500
-2022-09-20 07:12:16 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
-2022-09-20 07:13:26 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob']
-2022-09-20 07:13:26 SUCCESS doc msg 410
-2022-09-20 07:13:26 SUCCESS doc msg 500
-2022-09-20 07:13:26 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
-2022-09-20 07:30:02 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob']
-2022-09-20 07:30:02 SUCCESS doc msg 515
-2022-09-20 07:30:02 SUCCESS doc msg 395
-2022-09-20 07:30:02 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
-2022-09-20 07:30:33 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob']
-2022-09-20 07:30:33 SUCCESS doc msg 515
-2022-09-20 07:30:33 SUCCESS doc msg 395
-2022-09-20 07:30:33 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
-2022-09-20 08:10:27 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob', '493']
-2022-09-20 08:10:27 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
-2022-09-20 08:10:35 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob', '494']
-2022-09-20 08:10:35 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
-2022-09-20 09:07:17 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob']
-2022-09-20 09:07:17 SUCCESS doc msg 410
-2022-09-20 09:07:17 SUCCESS doc msg 488
-2022-09-20 09:07:17 SUCCESS doc msg 4
-2022-09-20 09:07:17 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
-2022-09-20 09:12:42 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob']
-2022-09-20 09:12:42 SUCCESS doc msg 410
-2022-09-20 09:12:42 SUCCESS doc msg 488
-2022-09-20 09:12:42 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633
+2022-09-25 21:23:33 INFO COMMAND - non-biased-news 625063d509dd2804f2c02568 - ['@wasteof_bot', 'graph']
+2022-09-25 21:23:33 INFO COMMAND - non-biased-news 625063d509dd2804f2c02568 - ['@wasteof_bot', 'graph']
+2022-09-25 21:23:34 SUCCESS COMMAND WALL - Response sent to non-biased-news 625063d509dd2804f2c02568
+2022-09-25 21:23:34 SUCCESS COMMAND WALL - Response sent to non-biased-news 625063d509dd2804f2c02568
+2022-09-25 21:23:35 INFO Got pinged by myself. ignored
+2022-09-25 21:23:35 INFO Got pinged by myself. ignored
+2022-09-26 13:28:33 INFO CHAT - mef 62a8a5989568ece5f36a9a98 - ['wob', 'graph']
+2022-09-26 13:28:34 SUCCESS CHAT - Response sent to mef 62a8a5989568ece5f36a9a98 with len 404
+2022-09-26 13:28:34 INFO Got pinged by myself. ignored
+2022-09-26 13:29:15 INFO CHAT - mef 62a8a5989568ece5f36a9a98 - ['wob', 'graph']
+2022-09-26 13:29:16 SUCCESS CHAT - Response sent to mef 62a8a5989568ece5f36a9a98 with len 404
+2022-09-26 13:29:16 INFO Got pinged by myself. ignored
+2022-09-26 14:15:45 INFO COMMAND - reid 6187f2f49dd808c2c76fb223 - ['@wasteof_bot', 'recents']
+2022-09-26 14:15:48 SUCCESS COMMAND POST_REPLY - Response sent to reid 6187f2f49dd808c2c76fb223
+2022-09-26 14:24:40 INFO Got pinged by myself. ignored
+2022-09-26 14:24:49 INFO Got pinged by myself. ignored
+2022-09-26 14:24:58 INFO Got pinged by myself. ignored
+2022-09-26 14:25:04 INFO Got pinged by myself. ignored
+2022-09-26 14:25:08 INFO Got pinged by myself. ignored
+2022-09-26 14:25:10 INFO Got pinged by myself. ignored
+2022-09-26 14:25:15 INFO Got pinged by myself. ignored
+2022-09-26 14:26:41 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob', 'recents']
+2022-09-26 14:26:43 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633 with len 463
+2022-09-26 14:26:44 INFO Got pinged by myself. ignored
+2022-09-26 14:26:54 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob', 'recents', 'beta']
+2022-09-26 14:26:56 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633 with len 498
+2022-09-26 14:26:56 INFO Got pinged by myself. ignored
+2022-09-26 14:27:05 INFO CHAT - ankit_anmol 613de0cfa242f211df630633 - ['wob', 'recents', 'ghrhtdhtdjy']
+2022-09-26 14:27:07 SUCCESS CHAT - Response sent to ankit_anmol 613de0cfa242f211df630633 with len 498
+2022-09-26 14:27:07 INFO Got pinged by myself. ignored
+2022-09-26 14:34:30 INFO Got pinged by myself. ignored
+2022-09-26 14:48:17 INFO Got pinged by myself. ignored
+2022-09-26 14:51:11 INFO COMMAND - wasteof_bot 6176b534557dc9054d895c3e - ['@wasteof_bot', 'graph', 'all']
+2022-09-26 14:51:12 SUCCESS COMMAND WALL - Response sent to wasteof_bot 6176b534557dc9054d895c3e
+2022-09-26 14:51:32 INFO COMMAND - wasteof_bot 6176b534557dc9054d895c3e - ['@wasteof_bot']
+2022-09-26 14:51:33 SUCCESS COMMAND WALL - Response sent to wasteof_bot 6176b534557dc9054d895c3e
+2022-09-26 14:52:31 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph']
+2022-09-26 14:52:31 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 412
+2022-09-26 14:52:37 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph']
+2022-09-26 14:52:37 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 512
+2022-09-26 14:52:49 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph']
+2022-09-26 14:52:49 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 412
+2022-09-26 14:52:55 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph']
+2022-09-26 14:52:55 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 412
+2022-09-26 14:52:59 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph']
+2022-09-26 14:52:59 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 412
+2022-09-26 14:55:07 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph', 'all']
+2022-09-26 14:55:07 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 506
+2022-09-26 14:56:16 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph', 'all']
+2022-09-26 14:56:17 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 497
+2022-09-26 14:56:25 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph', 'all']
+2022-09-26 14:56:25 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 497
+2022-09-26 14:56:44 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph']
+2022-09-26 14:56:44 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 493
+2022-09-26 14:57:04 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph']
+2022-09-26 14:57:05 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 493
+2022-09-26 14:59:29 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph']
+2022-09-26 14:59:29 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 493
+2022-09-26 14:59:33 INFO CHAT - wasteof_bot 6176b534557dc9054d895c3e - ['wob', 'graph']
+2022-09-26 14:59:33 SUCCESS CHAT - Response sent to wasteof_bot 6176b534557dc9054d895c3e with len 412
+2022-09-26 15:00:03 INFO COMMAND - wasteof_bot 6176b534557dc9054d895c3e - ['@wasteof_bot', 'graph']
+2022-09-26 15:00:04 SUCCESS COMMAND WALL - Response sent to wasteof_bot 6176b534557dc9054d895c3e

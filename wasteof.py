@@ -1,4 +1,4 @@
-import requests, os, json, time
+import requests, os, json, time, random
 from replit import db
 
 class api:
@@ -127,9 +127,39 @@ class api:
       if passive:
         return f"{user['name']} didnt use <code>{prefix} track</code>."
       return f"{y} didnt use <code>{prefix} track</code>. Use it to allow me track you. Return back for a graph next week since data is collected every week."
-    return f"""<p><b><h2>{user['name']}'s graphs</h2></b></p>
+
+    tip = f"<blockquote>Tip: Use \"{prefix} graph all\" for graph of all opted-in users</blockquote>"
+    if random.randint(0,1) or userid=="Wasteof":
+      tip = ""
+    return f"""{tip}<p><b><h2>{user['name']}'s graphs</h2></b></p>
 <p><b>Posts:</b><img src=\"{match["posts"]}\"></p>
 <p><b>Followers:</b><img src=\"{match["followers"]}\"></p>
 <p><b>Following:</b><img src=\"{match["following"]}\"></p>
 <p>Note: To stop tracking, you have to use <code>{prefix} track</code>. However, for data deletion, contact Ankit_Anmol on wasteof.</p>
 """
+  def recent_posts(self, prefix, beta=False):
+    z= time.time()
+    users = ["ratio", "zu"]
+    url = "https://api.wasteof.money/users/{user}/following/posts"
+    all_posts = set()
+    for item in users:
+      x = requests.get(url.format(user=item), headers=self.header).json()["posts"]
+      #print(f"{item}: {len(x)}")
+      x = [json.dumps(i) for i in x]
+      all_posts = all_posts.union(set(x))
+    
+    def timestamp_key(thedict):
+      return thedict["time"]
+    z = time.time() - z
+    y = time.time()
+    all_posts = [json.loads(item) for item in all_posts]
+    all_posts = sorted(all_posts, key = timestamp_key,  reverse=True)[:15]
+    if beta:  beta = "beta."
+    else:  beta = ""
+    url = 'https://{beta}wasteof.money/posts/{id}'
+    all_posts = [url.format(id=item["_id"], beta=beta) for item in all_posts]
+    y = time.time() - y
+    if prefix == "wob":
+      return "<b>Recent posts:</b><ul><li>" + "</li><li>".join(all_posts[:7]) + "</li></ul>"
+    else:
+      return "<b>Recent posts:</b><ol><li>" + "</li><li>".join(all_posts) + "</li></ol>"

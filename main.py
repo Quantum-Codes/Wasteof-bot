@@ -92,6 +92,9 @@ def respond(messages):
       client = item["data"]["actor"]
       comment = item["data"][item["type"].split("_")[-2]]["content"][3:-4].strip().split()
     comment = [i.lower() for i in comment]
+    #if client["name"] == "wasteof_bot":
+      #log.info(message="Got pinged by myself. ignored")
+      #continue
     if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):
       tempo = "COMMAND"
       if item["type"] == allowed_types[3]:
@@ -142,6 +145,11 @@ def respond(messages):
         else:
           db["track"].append(client["id"])
           response = "You have <b>opted-in</b> for me to <s>stalk you</s> track your statistics. Through this, you will be able to use an upcoming feature which will show your graph of statistics in stats command."
+      elif comment[1] == "recents":
+        if len(comment) == 3:
+          response = api.recent_posts(prefix, True)
+        else:
+          response = api.recent_posts(prefix, False)
         
 
     else:
@@ -167,7 +175,7 @@ def respond(messages):
             log.success(message=f"doc msg {len(item1)}")
         else:
           sio.emit("message", "<p>"+response+"</p>")
-        log.success(message=f"CHAT - Response sent to {client['name']} {client['id']}")
+        log.success(message=f"CHAT - Response sent to {client['name']} {client['id']} with len {len(response) + 7}")
 
   print(net() - prev_net, "MB")
   prev_net = net()
