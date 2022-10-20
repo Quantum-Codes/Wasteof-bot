@@ -1,6 +1,7 @@
 import requests, os, json, time, random
 from replit import db
 
+
 class api:
   def __init__(self):
     self.prefix = "wob"
@@ -15,11 +16,25 @@ class api:
     print("logged in!")
     self.token = token
 
+  def logpost(self, id):
+    with open("recents.txt", "a") as file:
+      file.write(f"{id}\n")
+
+  def checkpost(self, id):
+    with open("recents.txt", "r") as file:
+      return (id in file.read())
+  
   def repost(self, id, post):
     post = requests.post("https://api.wasteof.money/posts",headers = self.header, json={"post": post, "repost":id})
+    self.logpost(id)
     print(post.json())
+
     return post
 
+  def noping(self, ping):
+    return ping[:1] + "​" + ping[1:] #zero widthspace
+
+  
   def post(self, post):
     post = requests.post("https://api.wasteof.money/posts",headers = self.header, json={"post": post})
     print(post.json())
@@ -30,12 +45,23 @@ class api:
     return messages
 
   def wall_reply(self, user, id, post):
+    if self.checkpost(id):
+      return
     post = requests.post(f"https://api.wasteof.money/users/{user}/wall",headers = self.header, json={"content": post, "parent":id})
     #print(post,"\n", vars(post))
+    self.logpost(id)
     print(post.json())
     return post
 
   def post_reply(self, id, post, parent_id=None):
+    if parent_id:
+      if self.checkpost(parent_id):
+        return
+      self.logpost(parent_id)
+    elif self.checkpost(id):
+      return
+    else:
+      self.logpost(id)
     post = requests.post(f"https://api.wasteof.money/posts/{id}/comments",headers = self.header, json={"content": post, "parent": parent_id})
     #print(post,"\n", vars(post))
     print(post.json())
@@ -125,17 +151,17 @@ class api:
     else:
       y = "You"
       if passive:
-        return f"{user['name']} didnt use <code>{prefix} track</code>."
-      return f"{y} didnt use <code>{prefix} track</code>. Use it to allow me track you. Return back for a graph next week since data is collected every week."
+        return f"{user['name']} didnt use <code>{self.noping(prefix)} track</code>."
+      return f"{y} didnt use <code>{self.noping(prefix)} track</code>. Use it to allow me track you. Return back for a graph next week since data is collected every week."
 
-    tip = f"<blockquote>Tip: Use \"{prefix} graph all\" for graph of all opted-in users</blockquote>"
+    tip = f"<blockquote>Tip: Use \"{self.noping(prefix)} graph all\" for graph of all opted-in users</blockquote>"
     if random.randint(0,1) or userid=="Wasteof":
       tip = ""
     return f"""{tip}<p><b><h2>{user['name']}'s graphs</h2></b></p>
 <p><b>Posts:</b><img src=\"{match["posts"]}\"></p>
 <p><b>Followers:</b><img src=\"{match["followers"]}\"></p>
 <p><b>Following:</b><img src=\"{match["following"]}\"></p>
-<p>Note: To stop tracking, you have to use <code>{prefix} track</code>. However, for data deletion, contact Ankit_Anmol on wasteof.</p>
+<p>Note: To stop tracking, you have to use <code>{self.noping(prefix)} track</code>. However, for data deletion, contact Ankit_Anmol on wasteof.</p>
 """
   def recent_posts(self, prefix, beta=False):
     z= time.time()

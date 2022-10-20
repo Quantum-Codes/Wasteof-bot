@@ -16,7 +16,7 @@ from net import net
 from wasteof import api
 from keep_alive import keep_alive
 from replit import db
-import os, json, random
+import os, random
 #"""
 #db["track"] = []
 #"""
@@ -157,16 +157,34 @@ def respond(messages):
       
     if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):
       if item["type"] == allowed_types[0]:
-        api.wall_reply(item["data"]["comment"]["wall"]["name"], item["data"]["comment"]["_id"], response)
-        log.success(message=f"COMMAND WALL - Response sent to {client['name']} {client['id']}")
+        req = api.wall_reply(item["data"]["comment"]["wall"]["name"], item["data"]["comment"]["_id"], response)
+        if req:
+          if req.status_code == 200:
+            log.success(message=f"COMMAND WALL - Response sent to {client['name']} {client['id']}")
+          else:
+            log.critical(message=f"COMMAND WALL - ResponseError {req.status_code} {client['name']} {client['id']}")
+        else:
+          log.success(message=f"COMMAND WALL <ignored> {client['name']} {client['id']}")
 
       elif item["type"] == allowed_types[1]:
-        api.post_reply(item["data"]["post"]["_id"], response)
-        log.success(message=f"COMMAND POST - Response sent to {client['name']} {client['id']}")
+        req = api.post_reply(item["data"]["post"]["_id"], response)
+        if req:
+          if req.status_code == 200:
+            log.success(message=f"COMMAND POST - Response sent to {client['name']} {client['id']}")
+          else:
+            log.critical(message=f"COMMAND POST - ResponseError {req.status_code} {client['name']} {client['id']}")
+        else:
+          log.success(message=f"COMMAND POST <ignored> {client['name']} {client['id']}")
 
       elif item["type"] == allowed_types[2]:
-        api.post_reply(item["data"]["post"]["_id"], response, item["data"]["comment"]["_id"])
-        log.success(message=f"COMMAND POST_REPLY - Response sent to {client['name']} {client['id']}")
+        req = api.post_reply(item["data"]["post"]["_id"], response, item["data"]["comment"]["_id"])
+        if req:
+          if req.response_code == 200:
+            log.success(message=f"COMMAND POST_REPLY - Response sent to {client['name']} {client['id']}")
+          else:
+            log.critical(message=f"COMMAND POST_REPLY - ResponseError {req.status_code} {client['name']} {client['id']}")
+        else:
+          log.success(message=f"COMMAND POST_REPLY <ignored> {client['name']} {client['id']}")
 
       elif item["type"] == allowed_types[3]:
         if type(response) is list:
