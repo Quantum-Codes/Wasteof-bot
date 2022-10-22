@@ -20,6 +20,7 @@ import os, random
 #"""
 #db["track"] = []
 #"""
+#print(db["track"].append("60c4976b59c722b5661559c4"))
 prev_net = 0
 os.system("pip install python-socketio[client]")
 os.system("pip install pyEventLogger")
@@ -179,7 +180,7 @@ def respond(messages):
       elif item["type"] == allowed_types[2]:
         req = api.post_reply(item["data"]["post"]["_id"], response, item["data"]["comment"]["_id"])
         if req:
-          if req.response_code == 200:
+          if req.status_code == 200:
             log.success(message=f"COMMAND POST_REPLY - Response sent to {client['name']} {client['id']}")
           else:
             log.critical(message=f"COMMAND POST_REPLY - ResponseError {req.status_code} {client['name']} {client['id']}")
