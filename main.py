@@ -20,7 +20,7 @@ import os, random
 #"""
 #db["track"] = []
 #"""
-#print(db["track"].append("60c4976b59c722b5661559c4"))
+db["track"] = list(set(db["track"])) #to be safe
 prev_net = 0
 os.system("pip install python-socketio[client]")
 os.system("pip install pyEventLogger")
@@ -112,6 +112,8 @@ def respond(messages):
         response = api.joke()
       elif comment[1].isdigit():
         response = "muck" #"0"*int(comment[1])
+      elif comment[1] == "online":
+        response = "yep"
       elif comment[1] == "coinflip":
         response = randomroll(comment, 1, 10, "coin")
       elif comment[1] == "rolldice":
@@ -226,7 +228,7 @@ def on_mesage(data):
     respond(data)
   except Exception as e:
     print(e)
-    log.error(True)
+    log.error(True, message=f"CHAT ERROR - {data[0]['content']}\n DATA: {data[0]}")
 
 @sio.event
 def connect():
