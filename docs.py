@@ -1,36 +1,27 @@
-# predicted lengths is off by 1 from actual and Idk why
-def search(target, list1):
-  for item in list1:
-    if item > target:
-      return list1.index(item) #item with  len just more than limit
-  return len(list1) -1 #last index
 
 def splitter(message, lim):
   doc = message.split("\n")
-  lengths = [len(item) for item in doc] 
-  added_lengths = [8] 
-  for item in lengths:
-    added_lengths.append(added_lengths[-1] + item + 8)#8 is length of </p>\n<p>. (\ isn't counted)
-  added_lengths.pop(0)
-  print("Lengths: ", lengths,  "\nAdded: ", added_lengths)
-  x = []
-  if added_lengths[-1]+len(added_lengths)*8  < lim: #if splitting not needed, simply return
-    return "<p>\n</p>".join(doc)
+  temp = []
+  messages = []
+  count = 0
+  for item in doc:
+    count += len(item)+8
+    if count > lim:
+      if count - 8 > lim:
+        messages.append("</p>\n<p>".join(temp))
+        temp.clear()
+        temp.append(item)
+        count= len(item)
+      else:
+        temp.append(item)
+        messages.append("</p>\n<p>".join(temp))
+        temp.clear()
+        count= 0
+      continue
 
-  for i in range(1,added_lengths[-1]//lim +2): #start from 1 cuz first loop must have lim×1. Formula: total_len//lim +1 repetitions. add another 1 to it cuz python excludes max limit in range. 
-    x.append(search(lim*i, added_lengths))
-  x.append(None) # a[None:5] and a[5:None] works
-  print("Split Index:", x)
-  #messages = ["</p>\n<p>".join(doc[x[index-1]:item]) for index,item in enumerate(x)]
-  
-  messages=[]
-  for index, item in enumerate(x):
-    print("For:",x[index-1], item)
-    print("  len:", len("</p>\n<p>".join(doc[x[index-1]: item])))
-    messages.append("</p>\n<p>".join(doc[x[index-1]: item]))
-    print("  lentotal:", sum([len(i) for i in messages]))
-    print(messages[-1])
-  
+    temp.append(item)
+
+  messages.append("</p>\n<p>".join(temp))
   return messages
 
 
