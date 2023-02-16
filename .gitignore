@@ -1,1 +1,9 @@
 events.log
+/__pycache__
+recents.txt
+/venv
+.replit
+replit.nix
+/.config
+/.cache
+.breakpoints

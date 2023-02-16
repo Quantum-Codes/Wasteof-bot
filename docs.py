@@ -64,4 +64,4 @@ def docs(temp):
 <p><i>These are the only commands I have for now. Suggest commands on my wall.</i></p></p>"""
     return doc
 
-print(f"Result: {[len(item) for item in docs('wob')]}")
+#print(f"Result: {[len(item) for item in docs('wob')]}")
