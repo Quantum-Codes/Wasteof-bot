@@ -118,6 +118,11 @@ def respond(messages):
         response = randomroll(comment, 1, 10, "coin")
       elif comment[1] == "rolldice":
         response = randomroll(comment, 6, 1000000000000000, "dice")
+      elif comment[1] == "randompost":
+        beta = ""
+        if len(comment) > 2:
+          beta = "beta."
+        response = f"https://{beta}wasteof.money/posts/{api.random_post()['_id']}"
       elif comment[1] == "graph":
         if len(comment) == 2:
           response = api.image(client, prefix)
@@ -149,7 +154,7 @@ def respond(messages):
           db["track"].append(client["id"])
           response = "You have <b>opted-in</b> for me to <s>stalk you</s> track your statistics. Through this, you will be able to use an upcoming feature which will show your graph of statistics in stats command."
       elif comment[1] == "recents":
-        if len(comment) == 3:
+        if len(comment) > 2:
           response = api.recent_posts(prefix, True)
         else:
           response = api.recent_posts(prefix, False)

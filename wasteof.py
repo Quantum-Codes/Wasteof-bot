@@ -44,6 +44,10 @@ class api:
     messages = requests.get("https://api.wasteof.money/messages/unread",headers = self.header)
     return messages
 
+  def random_post(self):
+    post = requests.get("https://api.wasteof.money/random-post",headers = self.header).json()
+    return post
+
   def wall_reply(self, user, id, post):
     if self.checkpost(id):
       return
