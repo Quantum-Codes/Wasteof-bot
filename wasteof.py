@@ -48,6 +48,13 @@ class api:
     post = requests.get("https://api.wasteof.money/random-post",headers = self.header).json()
     return post
 
+  def get_preferences(self, user, t = None):
+    db["users"].setdefault(user["id"], {"site": "prod", "theme":"dark"}) #set value if not exists 
+    preference = db["users"][user["id"]]
+    if t:
+      return preference[t]
+    return preference
+
   def wall_reply(self, user, id, post):
     if self.checkpost(id):
       return

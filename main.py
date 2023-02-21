@@ -74,8 +74,7 @@ def randomroll(comment, default, max, mode):
     return f"{response} {random.randint(1, coins)}{endcoin}" 
 
 def preferences(comment, user, prefix):
-  db["users"].setdefault(user["id"], {"site": "prod", "theme":"dark"}) #set value if not exists 
-  pointer = db["users"][user["id"]]
+  pointer = api.get_preferences(user)
   if "beta" in comment:
     pointer["site"] = "beta"
   elif "prod" in comment:
