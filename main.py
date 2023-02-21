@@ -140,7 +140,7 @@ def respond(messages):
 
       elif comment[1] == "randompost":
         beta = ""
-        if len(comment) > 2:
+        if len(comment) > 2 or api.get_preferences(client, "site") == "beta":
           beta = "beta."
         response = f"https://{beta}wasteof.money/posts/{api.random_post()['_id']}"
       elif comment[1] == "graph":
@@ -174,7 +174,7 @@ def respond(messages):
           db["track"].append(client["id"])
           response = "You have <b>opted-in</b> for me to <s>stalk you</s> track your statistics. Through this, you will be able to use an upcoming feature which will show your graph of statistics in stats command."
       elif comment[1] == "recents":
-        if len(comment) > 2:
+        if len(comment) > 2 or api.get_preferences(client, "site") == "beta":
           response = api.recent_posts(prefix, True)
         else:
           response = api.recent_posts(prefix, False)
