@@ -17,9 +17,8 @@ from wasteof import api
 from keep_alive import keep_alive
 from replit import db
 import os, random
-#"""
-#db["track"] = []
-#"""
+
+#db["users"]  = {}
 db["track"] = list(set(db["track"])) #to be safe
 prev_net = 0
 os.system("pip install python-socketio[client]")
@@ -74,6 +73,25 @@ def randomroll(comment, default, max, mode):
   else:
     return f"{response} {random.randint(1, coins)}{endcoin}" 
 
+def preferences(comment, user, prefix):
+  db["users"].setdefault(user["id"], {"site": "prod", "theme":"dark"}) #set value if not exists 
+  pointer = db["users"][user["id"]]
+  if "beta" in comment:
+    pointer["site"] = "beta"
+  elif "prod" in comment:
+    pointer["site"] = "prod"
+
+  if "light" in comment:
+    pointer["theme"] = "light"
+  elif "dark" in comment:
+    pointer["theme"] = "dark"
+
+  response = f"Set {user['name']}'s preferences as:\n<b>Site:</b> {pointer['site']}\n<b>Theme:</b> {pointer['theme']}"
+  if prefix == "wob":
+    response = response.replace("\n", "</p>\n<p>")
+  return response
+
+
 
 def respond(messages):
   global prev_net
@@ -118,6 +136,9 @@ def respond(messages):
         response = randomroll(comment, 1, 10, "coin")
       elif comment[1] == "rolldice":
         response = randomroll(comment, 6, 1000000000000000, "dice")
+      elif comment[1] == "prefer":
+        response = preferences(comment, client, prefix)
+
       elif comment[1] == "randompost":
         beta = ""
         if len(comment) > 2:
