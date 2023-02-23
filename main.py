@@ -86,8 +86,8 @@ def preferences(comment, user, prefix):
     pointer["theme"] = "dark"
 
   response = f"Set {user['name']}'s preferences as:\n<b>Site:</b> {pointer['site']}\n<b>Theme:</b> {pointer['theme']}"
-  if prefix == "wob":
-    response = response.replace("\n", "</p>\n<p>")
+  #if prefix == "wob":
+  response = response.replace("\n", "</p>\n<p>")
   return response
 
 
@@ -110,9 +110,6 @@ def respond(messages):
       client = item["data"]["actor"]
       comment = item["data"][item["type"].split("_")[-2]]["content"][3:-4].strip().split()
     comment = [i.lower() for i in comment]
-    #if client["name"] == "wasteof_bot":
-      #log.info(message="Got pinged by myself. ignored")
-      #continue
     if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):
       tempo = "COMMAND"
       if item["type"] == allowed_types[3]:
@@ -144,7 +141,7 @@ def respond(messages):
           beta = "beta."
         response = f"https://{beta}wasteof.money/posts/{api.random_post()['_id']}"
       elif comment[1] == "graph":
-        if len(comment) == 2:
+        if len(comment) == 2: #wob graph
           response = api.image(client, prefix)
         else:
           if comment[2] == "all":

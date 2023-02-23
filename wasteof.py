@@ -150,9 +150,10 @@ class api:
     if user == "all":
       user = {"name": "Overall wasteof", "id":"Wasteof"}
     userid = user["id"]
+    theme = self.get_preferences(user, "theme")
     if userid in db["track"] or (userid == "Wasteof"):
       x = requests.get("https://raw.githubusercontent.com/Quantum-Codes/Wob-Graphs/main/url.json").json()
-      match = [(key[key.index("-")+1:-4], value) for key, value in x.items() if key.startswith(f"{userid}-")]
+      match = [(key[key.index("-")+1:-4], value) for key, value in x.items() if key.startswith(f"{theme}_{userid}-")]
       if len(match) == 0:
         y = ""
         if passive:
@@ -167,7 +168,8 @@ class api:
 
     tip = f"<blockquote>Tip: Use \"{self.noping(prefix)} graph all\" for graph of all opted-in users</blockquote>"
     if random.randint(0,1) or userid=="Wasteof":
-      tip = ""
+      opp_theme = "dark" if theme=="light" else "light"
+      tip = f"<blockquote>Tip: Use <code>{self.noping(prefix)} prefer {opp_theme}</code> to see graphs in {opp_theme}mode</blockquote>"
     return f"""{tip}<p><b><h2>{user['name']}'s graphs</h2></b></p>
 <p><b>Posts:</b><img src=\"{match["posts"]}\"></p>
 <p><b>Followers:</b><img src=\"{match["followers"]}\"></p>
