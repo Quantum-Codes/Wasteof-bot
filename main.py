@@ -101,7 +101,7 @@ def respond(messages):
       prefix = api.prefix
     else:
       prefix = "@wasteof_bot"
-    response = docs(prefix)
+    response = docs(api.noping(prefix))
     
     if item["type"] == allowed_types[3]:
       client = item["from"]

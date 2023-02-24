@@ -54,7 +54,7 @@ def docs(temp):
 <li><code>{temp} joke</code> to hear a <b>joke</b></li>
 <li><code>{temp} coinflip</code> to <b>flip a coin</b></li>
 <li><code>{temp} track</code> to let me <b>track your stats</b></li>
-<li><code>wob prefer [list of choices]</code> to <b>set preferences</b> for the bot. if <code>list</code> isn't given, it shows the set preferences. <code>list</code> is a list of items separated by a space. Has 2 options: beta/prod, light/dark</li>
+<li><code>{temp} prefer [list of choices]</code> to <b>set preferences</b> for the bot. if <code>list</code> isn't given, it shows the set preferences. <code>list</code> is a list of items separated by a space. Has 2 options: beta/prod, light/dark</li>
 <li><code>{temp} rolldice [faces]</code> to <b>roll a dice</b>. If <code>faces</code> isn't given, it defaults to 6</li>
 <li><code>{temp} avatar [user]</code> to get the user's <b>profile picture</b>. If <code>user</code> isn't given, it gives your avatar/profile pic</li>
 <li><code>{temp} banner [user]</code> to get the user's <b>banner</b>. If <code>user</code> isn't given, it gives your banner</li>

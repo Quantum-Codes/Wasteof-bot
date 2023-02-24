@@ -32,7 +32,9 @@ class api:
     return post
 
   def noping(self, ping):
-    return ping[:1] + "​" + ping[1:] #zero widthspace
+    if "@" in ping:
+      return ping[:1] + "​" + ping[1:] #zero widthspace
+    return ping
 
   
   def post(self, post):
