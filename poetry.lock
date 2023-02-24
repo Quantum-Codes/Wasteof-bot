@@ -525,38 +525,6 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<5)"]
 
 [[package]]
-name = "setuptools"
-version = "3.3"
-description = "Easily download, build, install, upgrade, and uninstall Python packages"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "setuptools-3.3-py2.py3-none-any.whl", hash = "sha256:4705222d7b1d308f67bd4a34ff2fb8a35b8a42f68ccb4a60586a2dd979665875"},
-    {file = "setuptools-3.3.tar.gz", hash = "sha256:f3e6155f9bb62bfd59b7f6cc2ecda21aae903e6b585f8bc55e801609c5f7814f"},
-    {file = "setuptools-3.3.zip", hash = "sha256:e085debac72b33ad95da3ed2523b01441e2fb1a5c9279ac3f9e1a78e4119aaf2"},
-]
-
-[package.extras]
-certs = ["certifi (==1.0.1)"]
-"ssl:sys-platform=='win32'" = ["wincertstore (==0.2)"]
-
-[[package]]
-name = "socketio"
-version = "0.2.1"
-description = ""
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "socketio-0.2.1.tar.gz", hash = "sha256:dee5abde39c6021d9d1874582479a4e7f8a8352b38bc7731fb6b27b76976f62c"},
-]
-
-[package.dependencies]
-netifaces = "0.10.6"
-setuptools = "3.3"
-
-[[package]]
 name = "typing-extensions"
 version = "3.10.0.2"
 description = "Backported and Experimental Type Hints for Python 3.5+"
