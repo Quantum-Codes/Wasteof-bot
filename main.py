@@ -145,7 +145,7 @@ def respond(messages):
           response = api.image(client, prefix)
         else:
           if comment[2] == "all":
-            response = api.image("all", prefix)
+            response = api.image("all", prefix, actual=client)
           else:
             existence = api.raw_user(comment[2])
             if existence.get("id"):
