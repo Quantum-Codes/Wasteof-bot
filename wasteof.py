@@ -148,10 +148,12 @@ class api:
     else:
       return f"{x['setup']}</p>\n<p>{x['delivery']}"
 
-  def image(self, user, prefix, passive=False, actual=None):
+  def image(self, user, prefix, actual=None): #actual is set when the client searches for graph other than his own
     if user == "all":
       user = {"name": "Overall wasteof", "id":"Wasteof"}
       theme = self.get_preferences(actual, "theme")
+    elif actual:
+      theme = self.get_preferences(actual, "theme")     
     else:
       theme = self.get_preferences(user, "theme")
 
@@ -161,13 +163,13 @@ class api:
       match = [(key[key.index("-")+1:-4], value) for key, value in x.items() if key.startswith(f"{theme}_{userid}-")]
       if len(match) == 0:
         y = ""
-        if passive:
+        if actual:
           y = f" for {user['name']}"
         return f"No graphs to show currently{y}. Return back at the start of next week."
       match = dict(match)
     else:
       y = "You"
-      if passive:
+      if actual:
         return f"{user['name']} didnt use <code>{self.noping(prefix)} track</code>."
       return f"{y} didnt use <code>{self.noping(prefix)} track</code>. Use it to allow me track you. Return back for a graph next week since data is collected every week."
 

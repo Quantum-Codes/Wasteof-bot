@@ -149,7 +149,7 @@ def respond(messages):
           else:
             existence = api.raw_user(comment[2])
             if existence.get("id"):
-              response = api.image(existence, prefix, True)
+              response = api.image(existence, prefix, actual=client)
             else:
               response = "That user doesn't even exist."
       elif comment[1] == "avatar" or comment[1] == "banner":
