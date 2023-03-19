@@ -244,6 +244,7 @@ def on_message(data):
 
 @sio.on('message')
 def on_mesage(data):
+  #sio.emit("redirect", "https://wasteof.money/")
   data["type"] = "chat"
   data = (data,)
   try:
