@@ -253,10 +253,12 @@ def on_mesage(data):
     print(e)
     log.error(True, message=f"CHAT ERROR - {data[0]['content']}\n DATA: {data[0]}")
 
+"""
 @sio.on('redirect')
 def on_redirect(url):
   sio.emit("message", f"Users redirected to {url}")
   log.success(message=f"CHAT - REDIRECT DETECTED {url}")
+"""
 
 @sio.event
 def connect():
