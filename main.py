@@ -96,7 +96,7 @@ def respond(messages):
   global prev_net
   for item in messages:
     if not item["type"] in allowed_types:
-      continue
+      continue 
     if item["type"] == "chat":
       prefix = api.prefix
     else:
@@ -175,11 +175,13 @@ def respond(messages):
           response = api.recent_posts(prefix, True)
         else:
           response = api.recent_posts(prefix, False)
-        
+
+      elif "drama" in comment[1]:
+        response = "A wise man once said:\n<img src='https://i.ibb.co/QpQdCdP/1019993439028383784-1.webp'>"
 
     else:
       print("No command given. Docs sent")
-      
+
     if comment[0] == "@wasteof_bot" or (item["type"]==allowed_types[3] and comment[0]==api.prefix):
       if item["type"] == allowed_types[0]:
         req = api.wall_reply(item["data"]["comment"]["wall"]["name"], item["data"]["comment"]["_id"], response)
