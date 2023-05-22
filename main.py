@@ -11,18 +11,19 @@
 <li>Use <code>{temp} stats [user]</code> to get the user's <b>statistics</b>. If <code>user</code> isn't given, it gives your stats.</li>
 </p>
 """
+
+"UPDATE URLLIB WHEN THE 'STRICT' ERROR WITH POETRY GETS FIXED https://stackoverflow.com/questions/76175361/firebase-authentication-httpresponse-object-has-no-attribute-strict-status"
 from docs import docs
 from net import net
 from wasteof import api
 from keep_alive import keep_alive
 from replit import db
 import os, random
-
+#with open("abc", "w") as file:
+#  file.write(os.environ["REPLIT_DB_URL"])
 #db["users"]  = {}
 db["track"] = list(set(db["track"])) #to be safe
 prev_net = 0
-os.system("pip install python-socketio[client]")
-os.system("pip install pyEventLogger")
 os.system("clear")
 import socketio
 from pyEventLogger import pyLogger
