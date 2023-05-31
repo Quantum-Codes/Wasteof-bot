@@ -1,4 +1,4 @@
-"""
+""" LINE 174 WIP
 <p>
 <p>Note: wherever I say “wasteof chat or “/chat“, I am referring to wasteof.money/chat</p>
 <p>I’m one of the first bots to exist on this website!</p>
@@ -14,30 +14,27 @@
 
 "UPDATE URLLIB WHEN THE 'STRICT' ERROR WITH POETRY GETS FIXED https://stackoverflow.com/questions/76175361/firebase-authentication-httpresponse-object-has-no-attribute-strict-status"
 from docs import docs
-from wasteof import api
 from keep_alive import keep_alive
+from wasteof import api
 from replit import db
 import os, random
-#with open("abc", "w") as file:
-#  file.write(os.environ["REPLIT_DB_URL"])
-#db["users"]  = {}
-db["track"] = list(set(db["track"])) #to be safe
-os.system("clear")
+
 try:
-  import socketio
+  import socketio, mysql.connector
   from pyEventLogger import pyLogger
 except ModuleNotFoundError:
-  os.system("pip install python-socketio[client] pyEventLogger")
+  os.system("pip install python-socketio[client] pyEventLogger mysql-connector-python")
   import socketio
   from pyEventLogger import pyLogger
+  os.system("clear")
 
 if not "REPL_SLUG" in os.environ:
   import dotenv
   dotenv.load_dotenv()
 
-  
+from db import database
 
-
+db_temp = database()
 sio = socketio.Client(logger=True)
 log = pyLogger(colored_output=True, make_file=True)
 
@@ -135,7 +132,8 @@ def respond(messages):
       if comment[1] == "joke":
         response = api.joke()
       elif comment[1].isdigit():
-        response = "muck" #"0"*int(comment[1])
+        count=db_temp.execute("SELECT count(userid) FROM wasteof;")
+        response = f"Saved users: {count[0][0]}"
       elif comment[1] == "online":
         response = "yep"
       elif comment[1] == "coinflip":
@@ -173,10 +171,11 @@ def respond(messages):
         insert_user(comment, item)
         response = api.stats(comment[2])
       elif comment[1] == "track":
+        print(db.execute("SELECT track FROM wasteof WHERE userid = %s"), client["id"])
         if client["id"] in db["track"]:
           index = db["track"].index(client["id"])
           db["track"].pop(index)
-          response=  "You have <b>opted-out</b> for me to <s>stalk</s> track statistics. Don't complain later that I don't show your stats in graph."
+          response=  "You have <b>opted-out</b> for me to <s>stalk</s> track statistics. Dont complain in later that I don't show your stats in graph."
         else:
           db["track"].append(client["id"])
           response = "You have <b>opted-in</b> for me to <s>stalk you</s> track your statistics. Through this, you will be able to use an upcoming feature which will show your graph of statistics in stats command."
@@ -275,4 +274,5 @@ def connect():
 
 sio.connect("https://api.wasteof.money/", auth= {"token":api.token})
 
-keep_alive()
+if "REPL_SLUG" in os.environ:
+  keep_alive()
