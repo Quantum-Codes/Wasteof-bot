@@ -14,7 +14,6 @@
 
 "UPDATE URLLIB WHEN THE 'STRICT' ERROR WITH POETRY GETS FIXED https://stackoverflow.com/questions/76175361/firebase-authentication-httpresponse-object-has-no-attribute-strict-status"
 from docs import docs
-from net import net
 from wasteof import api
 from keep_alive import keep_alive
 from replit import db
@@ -23,7 +22,6 @@ import os, random
 #  file.write(os.environ["REPLIT_DB_URL"])
 #db["users"]  = {}
 db["track"] = list(set(db["track"])) #to be safe
-prev_net = 0
 os.system("clear")
 try:
   import socketio
@@ -106,7 +104,6 @@ def preferences(comment, user, prefix):
 
 
 def respond(messages):
-  global prev_net
   for item in messages:
     if not item["type"] in allowed_types:
       continue 
@@ -234,9 +231,6 @@ def respond(messages):
         else:
           sio.emit("message", "<p>"+response+"</p>")
         log.success(message=f"CHAT - Response sent to {client['name']} {client['id']} with len {len(response) + 7}")
-
-  print(net() - prev_net, "MB")
-  prev_net = net()
 
 
 @sio.on('updateMessageCount')
