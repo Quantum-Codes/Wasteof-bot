@@ -1,4 +1,4 @@
-""" LINE 174 WIP
+""" COMPLRTED get_preference CHANGE. NOW GOTTA START wob prefer CONMAND
 <p>
 <p>Note: wherever I say “wasteof chat or “/chat“, I am referring to wasteof.money/chat</p>
 <p>I’m one of the first bots to exist on this website!</p>
@@ -171,14 +171,24 @@ def respond(messages):
         insert_user(comment, item)
         response = api.stats(comment[2])
       elif comment[1] == "track":
-        print(db.execute("SELECT track FROM wasteof WHERE userid = %s"), client["id"])
-        if client["id"] in db["track"]:
-          index = db["track"].index(client["id"])
-          db["track"].pop(index)
-          response=  "You have <b>opted-out</b> for me to <s>stalk</s> track statistics. Dont complain in later that I don't show your stats in graph."
+        if client["id"] in db_temp:
+          tracked = db_temp.execute("SELECT track FROM wasteof WHERE userid = %s;", (client["id"],))[0][0]
         else:
-          db["track"].append(client["id"])
+          tracked = None
+          
+
+        if tracked:
+          response=  "You have <b>opted-out</b> for me to <s>stalk</s> track statistics. Dont complain in later that I don't show your stats in graph."
+          db_temp.execute("UPDATE wasteof SET track = 0 WHERE userid = %s", (client["id"],))
+          db_temp.commit()
+        else:
           response = "You have <b>opted-in</b> for me to <s>stalk you</s> track your statistics. Through this, you will be able to use an upcoming feature which will show your graph of statistics in stats command."
+        if tracked == None:
+          db_temp.new_user(client["id"], track=1)
+        else:
+          db_temp.execute("UPDATE wasteof SET track = 0 WHERE userid = %s", (client["id"],))
+          db_temp.commit()
+
       elif comment[1] == "recents":
         if len(comment) > 2 or api.get_preferences(client, "site") == "beta":
           response = api.recent_posts(prefix, True)

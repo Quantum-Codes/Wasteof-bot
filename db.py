@@ -28,6 +28,11 @@ class database:
     exists = self.execute("SELECT exists(SELECT * FROM wasteof WHERE userid=%s)", (item,))
     return exists[0][0]
 
+  def new_user(self, id, track=0, beta=0, dark=1):
+    if not self.__contains__(id):
+      self.execute("INSERT INTO wasteof (userid, track, beta, dark) VALUES (%s, %s, %s, %s);", (id, track, beta, dark))
+      self.commit()
+
 
 """
 CREATE TABLE wasteof (

@@ -1,6 +1,9 @@
 import requests, os, json, time, random
+from db import database
 from replit import db
 
+
+db_temp = database()
 
 class api:
   def __init__(self):
@@ -51,6 +54,15 @@ class api:
     return post
 
   def get_preferences(self, user, t = None):
+    if user["id"] not in db_temp:
+      db_temp.new_user(user["id"])
+      preferences = {"site": "prod", "theme":"dark"}
+    else:
+      data = db_temp.execute("SELECT beta, dark FROM wasteof WHERE userid = %s;", (user["id"],))[0]
+      preferences = {
+        "site": "beta" if data[0] else "prod",
+        "theme":"dark" if data[1] else "light"
+      }
     db["users"].setdefault(user["id"], {"site": "prod", "theme":"dark"}) #set value if not exists 
     preference = db["users"][user["id"]]
     if t:
