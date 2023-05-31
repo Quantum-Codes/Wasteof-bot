@@ -32,6 +32,11 @@ except ModuleNotFoundError:
   os.system("pip install python-socketio[client] pyEventLogger")
   import socketio
   from pyEventLogger import pyLogger
+
+if not "REPL_SLUG" in os.environ:
+  import dotenv
+  dotenv.load_dotenv()
+
   
 
 
