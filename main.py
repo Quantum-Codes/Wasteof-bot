@@ -25,8 +25,15 @@ import os, random
 db["track"] = list(set(db["track"])) #to be safe
 prev_net = 0
 os.system("clear")
-import socketio
-from pyEventLogger import pyLogger
+try:
+  import socketio
+  from pyEventLogger import pyLogger
+except ModuleNotFoundError:
+  os.system("pip install python-socketio[client] pyEventLogger")
+  import socketio
+  from pyEventLogger import pyLogger
+  
+
 
 sio = socketio.Client(logger=True)
 log = pyLogger(colored_output=True, make_file=True)
