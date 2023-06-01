@@ -58,10 +58,11 @@ class api:
       db_temp.new_user(user["id"])
       preferences = {"site": "prod", "theme":"dark"}
     else:
-      data = db_temp.execute("SELECT beta, dark FROM wasteof WHERE userid = %s;", (user["id"],))[0]
+      data = db_temp.execute("SELECT beta, dark, track FROM wasteof WHERE userid = %s;", (user["id"],))[0]
       preferences = {
         "site": "beta" if data[0] else "prod",
-        "theme":"dark" if data[1] else "light"
+        "theme":"dark" if data[1] else "light",
+        "track": data[2]
       }
     if t:
       return preferences[t]
@@ -161,14 +162,16 @@ class api:
   def image(self, user, prefix, actual=None): #actual is set when the client searches for graph other than his own
     if user == "all":
       user = {"name": "Overall wasteof", "id":"Wasteof"}
-      theme = self.get_preferences(actual, "theme")
+      preferences = self.get_preferences(actual)
     elif actual:
-      theme = self.get_preferences(actual, "theme")     
+      preferences = self.get_preferences(actual)     
     else:
-      theme = self.get_preferences(user, "theme")
+      preferences = self.get_preferences(user)
+
+    theme = preferences["theme"]
 
     userid = user["id"]
-    if userid in db["track"] or (userid == "Wasteof"):
+    if preferences["track"] or (userid == "Wasteof"):
       x = requests.get("https://raw.githubusercontent.com/Quantum-Codes/Wob-Graphs/main/url.json").json()
       match = [(key[key.index("-")+1:-4], value) for key, value in x.items() if key.startswith(f"{theme}_{userid}-")]
       if len(match) == 0:
