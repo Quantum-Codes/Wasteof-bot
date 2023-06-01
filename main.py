@@ -13,9 +13,7 @@
 """
 
 "UPDATE URLLIB WHEN THE 'STRICT' ERROR WITH POETRY GETS FIXED https://stackoverflow.com/questions/76175361/firebase-authentication-httpresponse-object-has-no-attribute-strict-status"
-from docs import docs
-from keep_alive import keep_alive
-from wasteof import api
+
 from replit import db
 import os, random
 
@@ -27,6 +25,10 @@ except ModuleNotFoundError:
   import socketio
   from pyEventLogger import pyLogger
   os.system("clear")
+
+from docs import docs
+from keep_alive import keep_alive
+from wasteof import api
 
 if not "REPL_SLUG" in os.environ:
   import dotenv

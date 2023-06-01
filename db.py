@@ -25,7 +25,7 @@ class database:
     return result
 
   def __contains__(self, item):
-    exists = self.execute("SELECT exists(SELECT * FROM wasteof WHERE userid=%s)", (item,))
+    exists = self.execute("SELECT exists(SELECT * FROM wasteof WHERE userid=%s);", (item,))
     return exists[0][0]
 
   def new_user(self, id, track=0, beta=0, dark=1):
