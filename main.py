@@ -84,19 +84,20 @@ def randomroll(comment, default, max, mode):
     return f"{response} {random.randint(1, coins)}{endcoin}" 
 
 def preferences(comment, user, prefix):
-  pointer = api.get_preferences(user)
+  exists = (user["id"] in db_temp)
+  prefer_beta = 0
+  prefer_dark = 1
   if "beta" in comment:
-    pointer["site"] = "beta"
-  elif "prod" in comment:
-    pointer["site"] = "prod"
-
+    prefer_beta = 1
   if "light" in comment:
-    pointer["theme"] = "light"
-  elif "dark" in comment:
-    pointer["theme"] = "dark"
+    prefer_dark = 0
 
-  response = f"Set {user['name']}'s preferences as:\n<b>Site:</b> {pointer['site']}\n<b>Theme:</b> {pointer['theme']}"
-  #if prefix == "wob":
+  if exists:
+    db_temp.execute("UPDATE wasteof SET beta = %s, dark = %s WHERE userid = %s;", (prefer_beta, prefer_dark, user["id"]))
+    db_temp.commit()
+  else:
+    db_temp.new_user(user['id'], dark = prefer_dark, beta = prefer_beta)
+  response = f"Set {user['name']}'s preferences as:\n<b>Site:</b> {'beta' if prefer_beta else 'prod'}\n<b>Theme:</b> {'dark' if prefer_dark else 'light'}"
   response = response.replace("\n", "</p>\n<p>")
   return response
 

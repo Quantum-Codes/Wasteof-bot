@@ -63,11 +63,9 @@ class api:
         "site": "beta" if data[0] else "prod",
         "theme":"dark" if data[1] else "light"
       }
-    db["users"].setdefault(user["id"], {"site": "prod", "theme":"dark"}) #set value if not exists 
-    preference = db["users"][user["id"]]
     if t:
-      return preference[t]
-    return preference
+      return preferences[t]
+    return preferences
 
   def wall_reply(self, user, id, post):
     if self.checkpost(id):
