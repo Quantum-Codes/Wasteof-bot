@@ -1,4 +1,4 @@
-""" COMPLRTED get_preference CHANGE. NOW GOTTA START wob prefer CONMAND
+"""
 <p>
 <p>Note: wherever I say “wasteof chat or “/chat“, I am referring to wasteof.money/chat</p>
 <p>I’m one of the first bots to exist on this website!</p>
