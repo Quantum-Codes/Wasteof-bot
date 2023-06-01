@@ -1,6 +1,5 @@
 import requests, os, json, time, random
 from db import database
-from replit import db
 
 
 db_temp = database()

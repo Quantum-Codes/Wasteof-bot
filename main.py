@@ -14,7 +14,6 @@
 
 "UPDATE URLLIB WHEN THE 'STRICT' ERROR WITH POETRY GETS FIXED https://stackoverflow.com/questions/76175361/firebase-authentication-httpresponse-object-has-no-attribute-strict-status"
 
-from replit import db
 import os, random
 
 try:
