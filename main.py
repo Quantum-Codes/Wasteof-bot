@@ -188,7 +188,7 @@ def respond(messages):
         if tracked == None:
           db_temp.new_user(client["id"], track=1)
         else:
-          db_temp.execute("UPDATE wasteof SET track = 0 WHERE userid = %s", (client["id"],))
+          db_temp.execute("UPDATE wasteof SET track = 1 WHERE userid = %s", (client["id"],))
           db_temp.commit()
 
       elif comment[1] == "recents":
